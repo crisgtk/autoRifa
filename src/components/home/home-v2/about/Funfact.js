@@ -27,8 +27,8 @@ const Funfact = () => {
           <p className="text mb-0">{fact.text}</p>
         </div>
       ))} */}
-      <Link href="#" className="ud-btn btn-thm">
-        Comprar tu ticket
+      <Link href="/ticket" className="ud-btn btn-thm">
+        Compra tu ticket
         <i className="fal fa-arrow-right-long" />
       </Link>
     </div>
