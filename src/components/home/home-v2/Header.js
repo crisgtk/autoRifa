@@ -84,19 +84,19 @@ const Header = () => {
                   </a>
                   <Link
                     className="ud-btn add-property menu-btn bdrs60 mx-2 mx-xl-4"
-                    href="/dashboard-add-property"
+                    href="/ticket"
                   >
                     Compra tu ticket
                     <i className="fal fa-arrow-right-long" />
                   </Link>
-                  <a
+                  {/* <a
                     className="sidemenu-btn filter-btn-right"
-                    href="#"
+                    href="/ticket"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#SidebarPanel"
                     aria-controls="SidebarPanelLabel"
-                  >
-                    <Image
+                  > */}
+                    {/* <Image
                       width={25}
                       height={9}
                       className="img-1"
@@ -110,8 +110,8 @@ const Header = () => {
                       className="img-2"
                       src="/images/icon/nav-icon-dark.svg"
                       alt="humberger menu"
-                    />
-                  </a>
+                    /> */}
+                  {/* </a> */}
                 </div>
               </div>
               {/* End .col-auto */}
@@ -123,30 +123,30 @@ const Header = () => {
       {/* End Header */}
 
       {/* Signup Modal */}
-      <div className="signup-modal">
-        <div
+      {/* <div className="signup-modal"> */}
+        {/* <div
           className="modal fade"
           id="loginSignupModal"
           tabIndex={-1}
           aria-labelledby="loginSignupModalLabel"
           aria-hidden="true"
-        >
-          <div className="modal-dialog  modal-dialog-scrollable modal-dialog-centered">
-            <LoginSignupModal />
-          </div>
-        </div>
-      </div>
+        > */}
+          {/* <div className="modal-dialog  modal-dialog-scrollable modal-dialog-centered"> */}
+            {/* <LoginSignupModal /> */}
+          {/* </div> */}
+        {/* </div> */}
+      {/* </div> */}
       {/* End Signup Modal */}
 
       {/* DesktopSidebarMenu */}
-      <div
+      {/* <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"
         id="SidebarPanel"
         aria-labelledby="SidebarPanelLabel"
-      >
-        <SidebarPanel />
-      </div>
+      > */}
+        {/* <SidebarPanel /> */}
+      {/* </div> */}
       {/* Sidebar Panel End */}
     </>
   );

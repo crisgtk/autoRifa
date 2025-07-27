@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import QuantitySelector from "./QuantitySelector";
+import MercadoPagoCheckout from "./MercadoPagoCheckout";
 
 const propertyData = [
   {
@@ -201,11 +202,29 @@ const Ticket = () => {
                      <h5 className="mb-0">Total a pagar:</h5>
                      <h4 className="mb-0 text-primary">{formatPrice(totalWithPromo)}</h4>
                    </div>
-                   <div className="mt-3">
-                     <button className="btn btn-primary w-100">
-                       Proceder al Pago
-                     </button>
-                   </div>
+                                       <div className="mt-3">
+                      <MercadoPagoCheckout
+                        items={propertyData.map(product => ({
+                          title: product.title,
+                          quantity: quantities[product.id],
+                          unit_price: calculateEffectiveUnitPrice(quantities[product.id], product.price)
+                        }))}
+                        total={totalWithPromo}
+                        onSuccess={(data) => {
+                          console.log('Pago exitoso:', data);
+                          // Aquí puedes manejar el éxito del pago
+                          // Por ejemplo, limpiar el carrito, guardar en BD, etc.
+                        }}
+                        onError={(error) => {
+                          console.error('Error en el pago:', error);
+                          // Manejar errores de pago
+                        }}
+                        onPending={(data) => {
+                          console.log('Pago pendiente:', data);
+                          // Manejar pagos pendientes
+                        }}
+                      />
+                    </div>
                  </>
                );
              })()}

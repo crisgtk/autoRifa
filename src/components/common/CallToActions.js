@@ -29,9 +29,9 @@ const CallToActions = () => {
           <div className="row align-items-center">
             <div className="col-lg-7 col-xl-6 " data-aos="fade-right">
               <div className="cta-style1">
-                <h2 className="cta-title">Need help? Talk to our expert.</h2>
+                <h2 className="cta-title">¿Necesitas ayuda o tienes dudas?.</h2>
                 <p className="cta-text mb-0">
-                  Talk to our experts or Browse through more properties.
+                  Contactactanos a travez de nuestros numeros de contacto.
                 </p>
               </div>
             </div>
@@ -43,12 +43,12 @@ const CallToActions = () => {
                   href="/contact"
                   className="ud-btn btn-transparent mr30 mr0-xs"
                 >
-                  Contact Us
+                  Contactanos
                   <i className="fal fa-arrow-right-long" />
                 </Link>
-                <Link href="/contact" className="ud-btn btn-dark">
+                <Link href="#" className="ud-btn btn-dark">
                   <span className="flaticon-call vam pe-2" />
-                  920 851 9087
+                  +56 989957576
                 </Link>
               </div>
             </div>

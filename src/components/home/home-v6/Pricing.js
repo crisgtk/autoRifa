@@ -120,7 +120,7 @@ const Pricing = () => {
                   </ul>
                 </div>
                 <div className="d-grid">
-                  <a href="#" className="ud-btn btn-thm-border text-thm">
+                  <a href="/ticket" className="ud-btn btn-thm-border text-thm">
                     Compra tu ticket
                     <i className="fal fa-arrow-right-long" />
                   </a>

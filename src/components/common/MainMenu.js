@@ -32,10 +32,10 @@ const MainMenu = () => {
       }
     });
     propertyItems.forEach((item) =>
-      item.subMenuItems.forEach((elm) => {
+      item.submenu.forEach((elm) => {
         if (elm.href.split("/")[1] == pathname.split("/")[1]) {
           setTopMenu("property");
-          setSubmenu(item.label);
+          setSubmenu(item.title);
         }
       })
     );
@@ -128,7 +128,7 @@ const MainMenu = () => {
                 <span className="arrow"></span>
               </a>
               <ul className="sub-menu">
-                {item.subMenuItems.map((subMenuItem, subIndex) => (
+                {item.submenu.map((subMenuItem, subIndex) => (
                   <li key={subIndex}>
                     <Link
                       className={`${handleActive(subMenuItem.href)}`}
@@ -146,12 +146,12 @@ const MainMenu = () => {
       {/* End property Items */}
 
       <li className="visible_list dropitem">
-        <a className="list-item" href="#">
+        {/* <a className="list-item" href="#">
           <span className={topMenu == "blog" ? "title menuActive" : "title"}>
             Contacto
           </span>
           <span className="arrow"></span>
-        </a>
+        </a> */}
         <ul className="sub-menu">
           {blogItems.map((item, index) => (
             <li key={index}>
