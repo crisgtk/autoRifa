@@ -30,31 +30,45 @@ const MercadoPagoCheckout = ({
     setLoading(true);
     setError(null);
 
+    // Debug: verificar variables de entorno
+    console.log('Variables de entorno del frontend:', {
+      NEXT_PUBLIC_SUCCESS_URL: process.env.NEXT_PUBLIC_SUCCESS_URL,
+      NEXT_PUBLIC_FAILURE_URL: process.env.NEXT_PUBLIC_FAILURE_URL,
+      NEXT_PUBLIC_PENDING_URL: process.env.NEXT_PUBLIC_PENDING_URL,
+      NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY: process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY ? 'Configurado' : 'NO CONFIGURADO',
+      windowOrigin: typeof window !== 'undefined' ? window.location.origin : 'NO DISPONIBLE'
+    });
+
     try {
+      const requestData = {
+        items: items.map(item => ({
+          title: item.title,
+          quantity: item.quantity,
+          unit_price: item.unit_price,
+          currency_id: 'CLP'
+        })),
+        back_urls: {
+          success: process.env.NEXT_PUBLIC_SUCCESS_URL || `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/payment/success`,
+          failure: process.env.NEXT_PUBLIC_FAILURE_URL || `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/payment/failure`,
+          pending: process.env.NEXT_PUBLIC_PENDING_URL || `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/payment/pending`
+        },
+        // Temporalmente desactivamos auto_return para probar
+        // auto_return: 'approved',
+        notification_url: `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/api/mercadopago/webhook`,
+        metadata: {
+          timestamp: Date.now(),
+          total: total
+        }
+      };
+
+      console.log('Datos que se enviarán al API:', JSON.stringify(requestData, null, 2));
+
       const response = await fetch('/api/mercadopago/create-preference', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          items: items.map(item => ({
-            title: item.title,
-            quantity: item.quantity,
-            unit_price: item.unit_price,
-            currency_id: 'CLP'
-          })),
-          back_urls: {
-            success: process.env.NEXT_PUBLIC_SUCCESS_URL || `${window.location.origin}/payment/success`,
-            failure: process.env.NEXT_PUBLIC_FAILURE_URL || `${window.location.origin}/payment/failure`,
-            pending: process.env.NEXT_PUBLIC_PENDING_URL || `${window.location.origin}/payment/pending`
-          },
-          auto_return: 'approved',
-          notification_url: `${window.location.origin}/api/mercadopago/webhook`,
-          metadata: {
-            timestamp: Date.now(),
-            total: total
-          }
-        }),
+        body: JSON.stringify(requestData),
       });
 
       if (!response.ok) {
@@ -173,11 +187,13 @@ const MercadoPagoCheckout = ({
         <div className="row small text-muted">
           <div className="col-md-6">
             <strong>Visa:</strong> 4170 0688 1010 8020<br/>
-            <strong>Mastercard:</strong> 5031 7557 3453 0604
+            <strong>Mastercard:</strong> 5031 7557 3453 0604<br/>
+            <strong>Amex:</strong> 3711 803032 57522
           </div>
           <div className="col-md-6">
-            <strong>CVV:</strong> Cualquier 3 dígitos<br/>
-            <strong>Fecha:</strong> Cualquier fecha futura
+            <strong>CVV:</strong> 123 (Amex: 1234)<br/>
+            <strong>Fecha:</strong> Cualquier fecha futura<br/>
+            <strong>Nombre:</strong> APRO (para aprobada)
           </div>
         </div>
       </div>
