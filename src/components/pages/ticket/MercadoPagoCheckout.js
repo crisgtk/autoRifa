@@ -12,6 +12,7 @@ const MercadoPagoCheckout = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [paymentResult, setPaymentResult] = useState(null);
+  const [ticketGenerated, setTicketGenerated] = useState(false);
 
   // Inicializar MercadoPago con la public key
   useEffect(() => {
@@ -25,6 +26,45 @@ const MercadoPagoCheckout = ({
       setError('Error: No se encontró la clave pública de MercadoPago');
     }
   }, []);
+
+  // Función para generar y descargar ticket
+  const generateAndSendTicket = async (userData) => {
+    try {
+      console.log('🎟️ Generando ticket para:', userData);
+      
+      const response = await fetch('/api/tickets/generate-pdf-only', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        // Crear blob del PDF y descargarlo automáticamente
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `ticket-${userData.ticketNumber}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        console.log('✅ Ticket PDF descargado exitosamente');
+        setTicketGenerated(true);
+      } else {
+        const result = await response.json();
+        console.error('❌ Error generando ticket:', result.error);
+        setError('Error generando el ticket PDF');
+      }
+    } catch (error) {
+      console.error('❌ Error en generateAndSendTicket:', error);
+      setError('Error de conexión al generar ticket');
+    }
+  };
 
   // Configuración para el CardPayment
   const cardPaymentBricksOptions = {
@@ -66,6 +106,24 @@ const MercadoPagoCheckout = ({
           
           if (result.status === 'approved') {
             console.log('Pago aprobado:', result);
+            
+            // Capturar datos del usuario para generar ticket
+            const userData = {
+              name: cardFormData.payer?.first_name || cardFormData.cardholder?.name || 'Usuario',
+              email: cardFormData.payer?.email || 'usuario@ejemplo.com',
+              identification: cardFormData.payer?.identification?.number || cardFormData.payer?.identification || 'Sin RUT',
+              paymentId: result.id,
+              amount: result.transaction_amount || total,
+              ticketNumber: `TICKET-${Date.now()}`,
+              purchaseDate: new Date().toLocaleString('es-CL'),
+              items: items // Agregar información de los items comprados
+            };
+            
+            console.log('Datos del usuario capturados:', userData);
+            
+            // Llamar al sistema de tickets
+            await generateAndSendTicket(userData);
+            
             onSuccess(result);
           } else if (result.status === 'pending') {
             console.log('Pago pendiente:', result);
@@ -112,11 +170,60 @@ const MercadoPagoCheckout = ({
   if (paymentResult) {
     if (paymentResult.status === 'approved') {
       return (
-        <div className="alert alert-success" role="alert">
-          <i className="fas fa-check-circle me-2"></i>
-          <strong>¡Pago exitoso!</strong>
-          <div className="mt-2">
-            <small>ID de transacción: {paymentResult.id}</small>
+        <div className="card border-success">
+          <div className="card-header bg-success text-white">
+            <i className="fas fa-check-circle me-2"></i>
+            <strong>¡Pago Exitoso!</strong>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <h6 className="text-success">💳 Información del Pago</h6>
+                <p className="mb-1"><strong>ID:</strong> {paymentResult.id}</p>
+                <p className="mb-1"><strong>Monto:</strong> ${total.toLocaleString('es-CL')} CLP</p>
+                <p className="mb-3"><strong>Estado:</strong> <span className="badge bg-success">Aprobado</span></p>
+              </div>
+              <div className="col-md-6">
+                <h6 className="text-primary">🎟️ Tu Ticket</h6>
+                {ticketGenerated ? (
+                  <div className="alert alert-info">
+                    <i className="fas fa-paper-plane me-2"></i>
+                    <strong>¡Ticket enviado por email!</strong>
+                    <div className="mt-2">
+                      <small>Revisa tu bandeja de entrada (y spam)</small>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="d-flex align-items-center">
+                    <div className="spinner-border spinner-border-sm text-primary me-2"></div>
+                    <small>Generando y enviando ticket...</small>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="mt-3 p-3 bg-light rounded">
+              <h6 className="mb-2">🍀 ¡Felicitaciones!</h6>
+              <p className="mb-2">Tu participación en el sorteo ha sido registrada exitosamente.</p>
+              {ticketGenerated ? (
+                <div className="alert alert-success mb-0">
+                  <i className="fas fa-download me-2"></i>
+                  <strong>✅ Ticket PDF descargado automáticamente</strong>
+                  <div className="mt-1">
+                    <small>Revisa tu carpeta de descargas para encontrar tu ticket con código QR</small>
+                  </div>
+                </div>
+              ) : (
+                <div className="alert alert-info mb-0">
+                  <div className="d-flex align-items-center">
+                    <div className="spinner-border spinner-border-sm text-info me-2" role="status">
+                      <span className="visually-hidden">Generando ticket...</span>
+                    </div>
+                    <span>Generando y enviando ticket...</span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       );
