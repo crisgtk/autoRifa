@@ -32,7 +32,7 @@ const MercadoPagoCheckout = ({
     try {
       console.log('🎟️ Generando ticket para:', userData);
       
-      const response = await fetch('/api/tickets/generate-pdf-only', {
+      const response = await fetch('/api/tickets/generate', {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
@@ -40,25 +40,14 @@ const MercadoPagoCheckout = ({
         body: JSON.stringify(userData),
       });
 
-      if (response.ok) {
-        // Crear blob del PDF y descargarlo automáticamente
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = `ticket-${userData.ticketNumber}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-        
-        console.log('✅ Ticket PDF descargado exitosamente');
+      const result = await response.json();
+
+      if (result.success) {
+        console.log('✅ Ticket generado y enviado por email exitosamente');
         setTicketGenerated(true);
       } else {
-        const result = await response.json();
         console.error('❌ Error generando ticket:', result.error);
-        setError('Error generando el ticket PDF');
+        setError('Error generando el ticket: ' + result.error);
       }
     } catch (error) {
       console.error('❌ Error en generateAndSendTicket:', error);
@@ -207,10 +196,10 @@ const MercadoPagoCheckout = ({
               <p className="mb-2">Tu participación en el sorteo ha sido registrada exitosamente.</p>
               {ticketGenerated ? (
                 <div className="alert alert-success mb-0">
-                  <i className="fas fa-download me-2"></i>
-                  <strong>✅ Ticket PDF descargado automáticamente</strong>
+                  <i className="fas fa-envelope me-2"></i>
+                  <strong>✅ Ticket enviado por email exitosamente</strong>
                   <div className="mt-1">
-                    <small>Revisa tu carpeta de descargas para encontrar tu ticket con código QR</small>
+                    <small>Revisa tu bandeja de entrada para encontrar tu ticket PDF con código QR</small>
                   </div>
                 </div>
               ) : (
@@ -219,7 +208,7 @@ const MercadoPagoCheckout = ({
                     <div className="spinner-border spinner-border-sm text-info me-2" role="status">
                       <span className="visually-hidden">Generando ticket...</span>
                     </div>
-                    <span>Generando y enviando ticket...</span>
+                    <span>Generando PDF y enviando por email...</span>
                   </div>
                 </div>
               )}

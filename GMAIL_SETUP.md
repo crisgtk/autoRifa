@@ -16,15 +16,15 @@
 ### **PASO 3: Configurar .env.local**
 ```bash
 # Email Configuration
-EMAIL_USER=tu-email@gmail.com
-EMAIL_PASSWORD=abcd-efgh-ijkl-mnop  # ← La contraseña de aplicación
+EMAIL_USER=utorifadeautoimporta@gmail.com
+EMAIL_PASSWORD=augh hicj fbem ujnq  # ← La contraseña de aplicación
 ```
 
 ### **PASO 4: Probar Configuración**
 ```bash
 curl -X POST http://localhost:3000/api/tickets/test-email \
   -H "Content-Type: application/json" \
-  -d '{"email": "tu-email@gmail.com"}'
+  -d '{"email": "utorifadeautoimporta@gmail.com"}'
 ```
 
 ---
