@@ -19,8 +19,14 @@ export const getEnvironment = () => {
   return 'production';
 };
 
-// Obtener la URL base según el entorno
+// Obtener la URL base según el entorno (funciona en cliente y servidor)
 export const getBaseUrl = () => {
+  // Cliente: usar window.location si está disponible
+  if (typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.host}`;
+  }
+  
+  // Servidor: comportamiento original
   // Si hay una URL personalizada definida, usarla
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, ''); // Remover slash final
@@ -34,8 +40,8 @@ export const getBaseUrl = () => {
   }
   
   // Para desarrollo local - detectar puerto de Next.js
-  // Prioridad: NEXT_PUBLIC_SITE_URL > PORT > NEXT_PUBLIC_PORT > 3001 (puerto común de Next.js)
-  const port = process.env.PORT || process.env.NEXT_PUBLIC_PORT || '3001';
+  // Prioridad: NEXT_PUBLIC_SITE_URL > PORT > NEXT_PUBLIC_PORT > 3000 (puerto por defecto de Next.js)
+  const port = process.env.PORT || process.env.NEXT_PUBLIC_PORT || '3000';
   return `http://localhost:${port}`;
 };
 
