@@ -30,6 +30,17 @@ const ProSidebarContent = () => {
         >
           Comprar ticket
         </MenuItem>
+        
+        <MenuItem
+          component={
+            <Link
+              className={path === "/single-v7/1" ? "active" : ""}
+              href="/single-v7/1"
+            />
+          }
+        >
+          Auto en sorteo
+        </MenuItem>
       </Menu>
     </Sidebar>
   );

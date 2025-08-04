@@ -27,6 +27,14 @@ const MainMenu = () => {
           </span>
         </Link>
       </li>
+      
+      <li className="visible_list">
+        <Link className="list-item" href="/single-v7/1">
+          <span className={pathname === "/single-v7/1" ? "title menuActive" : "title"}>
+            Auto en sorteo
+          </span>
+        </Link>
+      </li>
     </ul>
   );
 };
