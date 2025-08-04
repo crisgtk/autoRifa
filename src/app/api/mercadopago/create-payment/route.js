@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { MercadoPagoConfig, Payment } from 'mercadopago';
-import { getPaymentUrls } from '@/utilis/environment';
+import { getPaymentUrls, validateMercadoPagoUrl } from '@/utilis/environment';
 
 // Configurar MercadoPago con el access token
 const client = new MercadoPagoConfig({
@@ -26,6 +26,10 @@ export async function POST(request) {
     } = body;
 
     console.log('Datos recibidos para crear pago:', JSON.stringify(body, null, 2));
+    
+    // Verificar URLs de pago
+    const paymentUrls = getPaymentUrls();
+    console.log('URLs de pago configuradas:', paymentUrls);
 
     // Validaciones básicas
     if (!token) {
@@ -64,7 +68,7 @@ export async function POST(request) {
         total: total || transaction_amount
       },
       // URL de notificación para webhooks (solo en producción - MercadoPago no acepta localhost)
-      ...(getPaymentUrls().webhook && { notification_url: getPaymentUrls().webhook }),
+      ...(paymentUrls.webhook && { notification_url: paymentUrls.webhook }),
       
       // Información adicional para Chile
       additional_info: {
@@ -89,6 +93,22 @@ export async function POST(request) {
     };
 
     console.log('Datos del pago a enviar a MercadoPago:', JSON.stringify(paymentData, null, 2));
+    
+    // Validar específicamente la notification_url si está presente
+    if (paymentData.notification_url) {
+      console.log('notification_url que se enviará:', paymentData.notification_url);
+      const validation = validateMercadoPagoUrl(paymentData.notification_url);
+      if (validation.valid) {
+        console.log('notification_url es válida');
+      } else {
+        console.error('notification_url es inválida:', validation.reason);
+        // Remover la notification_url inválida para evitar el error
+        delete paymentData.notification_url;
+        console.log('notification_url removida del payload');
+      }
+    } else {
+      console.log('No se incluirá notification_url (modo desarrollo o URL inválida)');
+    }
 
     // Crear el pago usando la API de MercadoPago
     const payment = new Payment(client);
