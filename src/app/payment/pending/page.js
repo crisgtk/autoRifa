@@ -125,7 +125,4 @@ export default function PaymentPending() {
   );
 }
 
-export const metadata = {
-  title: 'Pago Pendiente - AutoRifa',
-  description: 'Tu pago está siendo procesado',
-}; 
+// Metadata removed - Client Components cannot export metadata 
