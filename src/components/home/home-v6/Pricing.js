@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const Pricing = () => {
@@ -120,10 +121,13 @@ const Pricing = () => {
                   </ul>
                 </div>
                 <div className="d-grid">
-                  <a href="/ticket" className="ud-btn btn-thm-border text-thm">
+                  <Link 
+                    href={`/ticket?quantity=${index === 0 ? 1 : index === 1 ? 3 : 6}`}
+                    className="ud-btn btn-thm-border text-thm"
+                  >
                     Compra tu ticket
                     <i className="fal fa-arrow-right-long" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

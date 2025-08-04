@@ -2,7 +2,6 @@
 
 import MainMenu from "@/components/common/MainMenu";
 import SidebarPanel from "@/components/common/sidebar-panel";
-import LoginSignupModal from "@/components/common/login-signup-modal";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -72,16 +71,6 @@ const Header = () => {
                     <i className="far fa-phone fz16 me-2"></i>{" "}
                     <span className="d-none d-xl-block">+56 989957576</span>
                   </a>
-                  <a
-                    href="#"
-                    className="login-info d-flex align-items-center"
-                    data-bs-toggle="modal"
-                    data-bs-target="#loginSignupModal"
-                    role="button"
-                  >
-                    <i className="far fa-user-circle fz16 me-2" />{" "}
-                    <span className="d-none d-xl-block">Login / Regisrese</span>
-                  </a>
                   <Link
                     className="ud-btn add-property menu-btn bdrs60 mx-2 mx-xl-4"
                     href="/ticket"
@@ -122,21 +111,7 @@ const Header = () => {
       </header>
       {/* End Header */}
 
-      {/* Signup Modal */}
-      {/* <div className="signup-modal"> */}
-        {/* <div
-          className="modal fade"
-          id="loginSignupModal"
-          tabIndex={-1}
-          aria-labelledby="loginSignupModalLabel"
-          aria-hidden="true"
-        > */}
-          {/* <div className="modal-dialog  modal-dialog-scrollable modal-dialog-centered"> */}
-            {/* <LoginSignupModal /> */}
-          {/* </div> */}
-        {/* </div> */}
-      {/* </div> */}
-      {/* End Signup Modal */}
+
 
       {/* DesktopSidebarMenu */}
       {/* <div

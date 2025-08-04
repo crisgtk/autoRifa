@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import QuantitySelector from "./QuantitySelector";
 import MercadoPagoCheckout from "./MercadoPagoCheckout";
 
@@ -18,6 +19,8 @@ const propertyData = [
 
 
 const Ticket = () => {
+  const searchParams = useSearchParams();
+  
   // Estado para manejar las cantidades de cada producto
   const [quantities, setQuantities] = useState(
     propertyData.reduce((acc, item) => {
@@ -25,6 +28,20 @@ const Ticket = () => {
       return acc;
     }, {})
   );
+
+  // Effect para leer parámetros de URL y establecer cantidad inicial
+  useEffect(() => {
+    const quantityParam = searchParams.get('quantity');
+    if (quantityParam) {
+      const initialQuantity = parseInt(quantityParam, 10);
+      if (initialQuantity > 0 && initialQuantity <= 10) {
+        setQuantities(prev => ({
+          ...prev,
+          [propertyData[0].id]: initialQuantity
+        }));
+      }
+    }
+  }, [searchParams]);
 
   // Función para formatear precios en pesos colombianos
   const formatPrice = (price) => {
