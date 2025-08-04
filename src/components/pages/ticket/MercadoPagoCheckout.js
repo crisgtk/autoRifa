@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+import { initMercadoPago, CardPayment } from '@mercadopago/sdk-react';
+import { generateAutoRifaTicketNumber } from '../../../utilis/ticketGenerator';
 
 const MercadoPagoCheckout = ({ 
   items, 
@@ -9,9 +10,10 @@ const MercadoPagoCheckout = ({
   onError = () => {},
   onPending = () => {} 
 }) => {
-  const [preferenceId, setPreferenceId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [paymentResult, setPaymentResult] = useState(null);
+  const [ticketGenerated, setTicketGenerated] = useState(false);
 
   // Inicializar MercadoPago con la public key
   useEffect(() => {
@@ -20,68 +22,120 @@ const MercadoPagoCheckout = ({
       initMercadoPago(publicKey, {
         locale: 'es-CL'
       });
+      console.log('MercadoPago inicializado con Checkout Bricks');
     } else {
       setError('Error: No se encontró la clave pública de MercadoPago');
     }
   }, []);
 
-  // Crear preferencia de pago
-  const createPreference = async () => {
-    setLoading(true);
-    setError(null);
-
+  // Función para generar y descargar ticket
+  const generateAndSendTicket = async (userData) => {
     try {
-      const response = await fetch('/api/mercadopago/create-preference', {
-        method: 'POST',
+      console.log('🎟️ Generando ticket para:', userData);
+      
+      const response = await fetch('/api/tickets/generate', {
+        method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          items: items.map(item => ({
-            title: item.title,
-            quantity: item.quantity,
-            unit_price: item.unit_price,
-            currency_id: 'CLP'
-          })),
-          back_urls: {
-            success: process.env.NEXT_PUBLIC_SUCCESS_URL || `${window.location.origin}/payment/success`,
-            failure: process.env.NEXT_PUBLIC_FAILURE_URL || `${window.location.origin}/payment/failure`,
-            pending: process.env.NEXT_PUBLIC_PENDING_URL || `${window.location.origin}/payment/pending`
-          },
-          auto_return: 'approved',
-          notification_url: `${window.location.origin}/api/mercadopago/webhook`,
-          metadata: {
-            timestamp: Date.now(),
-            total: total
-          }
-        }),
+        body: JSON.stringify(userData),
       });
 
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
-      }
+      const result = await response.json();
 
-      const data = await response.json();
-      
-      if (data.error) {
-        throw new Error(data.error);
+      if (result.success) {
+        console.log('✅ Ticket generado y enviado por email exitosamente');
+        setTicketGenerated(true);
+      } else {
+        console.error('❌ Error generando ticket:', result.error);
+        setError('Error generando el ticket: ' + result.error);
       }
-
-      setPreferenceId(data.id);
-      
-    } catch (err) {
-      console.error('Error creando preferencia:', err);
-      setError(err.message || 'Error al procesar el pago');
-      onError(err);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error('❌ Error en generateAndSendTicket:', error);
+      setError('Error de conexión al generar ticket');
     }
   };
 
-  // Manejar el clic del botón de pago
-  const handlePayment = () => {
-    if (!preferenceId) {
-      createPreference();
+  // Configuración para el CardPayment
+  const cardPaymentBricksOptions = {
+    amount: total,
+    locale: 'es-CL',
+    processingMode: 'aggregator',
+    callbacks: {
+      onReady: () => {
+        console.log('CardPayment Brick está listo');
+        setLoading(false);
+      },
+      onSubmit: async (cardFormData) => {
+        setLoading(true);
+        console.log('Datos del formulario de tarjeta:', cardFormData);
+        
+        try {
+          const response = await fetch('/api/mercadopago/create-payment', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ...cardFormData,
+              items: items,
+              total: total,
+              description: `Compra de tickets - ${items.map(item => item.title).join(', ')}`
+            }),
+          });
+
+          const result = await response.json();
+          
+          if (result.error) {
+            setError(result.error);
+            onError(new Error(result.error));
+            return;
+          }
+
+          setPaymentResult(result);
+          
+          if (result.status === 'approved') {
+            console.log('Pago aprobado:', result);
+            
+            // Capturar datos del usuario para generar ticket
+            const userData = {
+              name: cardFormData.payer?.first_name || cardFormData.cardholder?.name || 'Usuario',
+              email: cardFormData.payer?.email || 'usuario@ejemplo.com',
+              identification: cardFormData.payer?.identification?.number || cardFormData.payer?.identification || 'Sin RUT',
+              paymentId: result.id,
+              amount: result.transaction_amount || total,
+              ticketNumber: generateAutoRifaTicketNumber(),
+              purchaseDate: new Date().toLocaleString('es-CL'),
+              items: items // Agregar información de los items comprados
+            };
+            
+            console.log('Datos del usuario capturados:', userData);
+            
+            // Llamar al sistema de tickets
+            await generateAndSendTicket(userData);
+            
+            onSuccess(result);
+          } else if (result.status === 'pending') {
+            console.log('Pago pendiente:', result);
+            onPending(result);
+          } else {
+            console.log('Pago rechazado:', result);
+            onError(new Error('Pago rechazado'));
+          }
+        } catch (err) {
+          console.error('Error procesando pago:', err);
+          setError('Error al procesar el pago');
+          onError(err);
+        } finally {
+          setLoading(false);
+        }
+      },
+      onError: (error) => {
+        console.error('Error en CardPayment Brick:', error);
+        setError('Error en el formulario de pago');
+        onError(error);
+        setLoading(false);
+      }
     }
   };
 
@@ -94,7 +148,7 @@ const MercadoPagoCheckout = ({
           className="btn btn-sm btn-outline-danger ms-3"
           onClick={() => {
             setError(null);
-            setPreferenceId(null);
+            setPaymentResult(null);
           }}
         >
           Reintentar
@@ -103,81 +157,129 @@ const MercadoPagoCheckout = ({
     );
   }
 
+  if (paymentResult) {
+    if (paymentResult.status === 'approved') {
+      return (
+        <div className="card border-success">
+          <div className="card-header bg-success text-white">
+            <i className="fas fa-check-circle me-2"></i>
+            <strong>¡Pago Exitoso!</strong>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <h6 className="text-success">💳 Información del Pago</h6>
+                <p className="mb-1"><strong>ID:</strong> {paymentResult.id}</p>
+                <p className="mb-1"><strong>Monto:</strong> ${total.toLocaleString('es-CL')} CLP</p>
+                <p className="mb-3"><strong>Estado:</strong> <span className="badge bg-success">Aprobado</span></p>
+              </div>
+              <div className="col-md-6">
+                <h6 className="text-primary">🎟️ Tu Ticket</h6>
+                {ticketGenerated ? (
+                  <div className="alert alert-info">
+                    <i className="fas fa-paper-plane me-2"></i>
+                    <strong>¡Ticket enviado por email!</strong>
+                    <div className="mt-2">
+                      <small>Revisa tu bandeja de entrada (y spam)</small>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="d-flex align-items-center">
+                    <div className="spinner-border spinner-border-sm text-primary me-2"></div>
+                    <small>Generando y enviando ticket...</small>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="mt-3 p-3 bg-light rounded">
+              <h6 className="mb-2">🍀 ¡Felicitaciones!</h6>
+              <p className="mb-2">Tu participación en el sorteo ha sido registrada exitosamente.</p>
+              {ticketGenerated ? (
+                <div className="alert alert-success mb-0">
+                  <i className="fas fa-envelope me-2"></i>
+                  <strong>✅ Ticket enviado por email exitosamente</strong>
+                  <div className="mt-1">
+                    <small>Revisa tu bandeja de entrada para encontrar tu ticket PDF con código QR</small>
+                  </div>
+                </div>
+              ) : (
+                <div className="alert alert-info mb-0">
+                  <div className="d-flex align-items-center">
+                    <div className="spinner-border spinner-border-sm text-info me-2" role="status">
+                      <span className="visually-hidden">Generando ticket...</span>
+                    </div>
+                    <span>Generando PDF y enviando por email...</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    } else if (paymentResult.status === 'pending') {
+      return (
+        <div className="alert alert-warning" role="alert">
+          <i className="fas fa-clock me-2"></i>
+          <strong>Pago pendiente</strong>
+          <div className="mt-2">
+            <small>Tu pago está siendo procesado</small>
+          </div>
+        </div>
+      );
+    }
+  }
+
   return (
     <div className="mercadopago-checkout">
       {loading && (
         <div className="d-flex align-items-center justify-content-center py-3">
           <div className="spinner-border text-primary me-3" role="status">
-            <span className="visually-hidden">Cargando...</span>
+            <span className="visually-hidden">Procesando pago...</span>
           </div>
-          <span>Preparando el pago...</span>
+          <span>Procesando tu pago...</span>
         </div>
       )}
 
-      {!preferenceId && !loading && (
-        <button 
-          className="btn btn-primary w-100 py-3"
-          onClick={handlePayment}
-          disabled={loading}
-          style={{
-            background: 'linear-gradient(135deg, #00a8e6 0%, #0077c7 100%)',
-            border: 'none',
-            boxShadow: '0 4px 15px rgba(0, 168, 230, 0.3)',
-            transition: 'all 0.3s ease'
-          }}
-        >
-          <i className="fas fa-credit-card me-2"></i>
-          Pagar con MercadoPago
-          <div className="small mt-1 opacity-75">
-            Total: ${total.toLocaleString('es-CL')} CLP
+      <div className="mb-3">
+        <h5 className="mb-3">Completa tu pago</h5>
+        <div className="p-3 bg-light rounded mb-3">
+          <div className="d-flex justify-content-between">
+            <span>Total a pagar:</span>
+            <strong>${total.toLocaleString('es-CL')} CLP</strong>
           </div>
-        </button>
-      )}
-
-      {preferenceId && !loading && (
-        <div className="mercadopago-wallet">
-          <Wallet 
-            initialization={{ 
-              preferenceId: preferenceId,
-              redirectMode: 'self'
-            }}
-            customization={{
-              texts: {
-                valueProp: 'smart_option'
-              }
-            }}
-            onReady={() => {
-              console.log('MercadoPago Wallet está listo');
-            }}
-            onSubmit={(data) => {
-              console.log('Pago enviado:', data);
-            }}
-            onError={(error) => {
-              console.error('Error en MercadoPago Wallet:', error);
-              setError('Error al cargar el método de pago');
-              onError(error);
-            }}
-          />
         </div>
-      )}
+      </div>
 
-      {/* Información de prueba */}
+      {/* CardPayment Brick */}
+      <div className="card-payment-brick">
+        <CardPayment 
+          initialization={cardPaymentBricksOptions}
+          onReady={cardPaymentBricksOptions.callbacks.onReady}
+          onSubmit={cardPaymentBricksOptions.callbacks.onSubmit}
+          onError={cardPaymentBricksOptions.callbacks.onError}
+        />
+      </div>
+
+      {/* Información de prueba actualizada para TEST */}
       <div className="mt-3 p-3 bg-light rounded">
         <h6 className="text-muted mb-2">
           <i className="fas fa-info-circle me-2"></i>
-          Modo de Prueba
+          Tarjetas de Prueba (TEST)
         </h6>
         <p className="small text-muted mb-2">
-          Usa estas tarjetas de prueba para simular pagos:
+          Usa estas tarjetas con credenciales TEST:
         </p>
         <div className="row small text-muted">
           <div className="col-md-6">
-            <strong>Visa:</strong> 4170 0688 1010 8020<br/>
-            <strong>Mastercard:</strong> 5031 7557 3453 0604
+            <strong>Visa Aprobada:</strong> 4009 1753 3280 7176<br/>
+            <strong>Mastercard Aprobada:</strong> 5031 7557 3453 0604<br/>
+            <strong>Visa Rechazada:</strong> 4774 0614 1078 7852
           </div>
           <div className="col-md-6">
-            <strong>CVV:</strong> Cualquier 3 dígitos<br/>
-            <strong>Fecha:</strong> Cualquier fecha futura
+            <strong>CVV:</strong> 123<br/>
+            <strong>Fecha:</strong> 12/25<br/>
+            <strong>Nombre:</strong> APRO (aprobada) / OTHE (rechazada)
           </div>
         </div>
       </div>
@@ -185,4 +287,4 @@ const MercadoPagoCheckout = ({
   );
 };
 
-export default MercadoPagoCheckout; 
+export default MercadoPagoCheckout;
