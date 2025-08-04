@@ -66,10 +66,10 @@ const Header = () => {
                 <div className="d-flex align-items-center">
                   <a
                     className="login-info d-flex align-items-center me-3"
-                    href="tel:+012305094502"
+                    href="tel:+56932460442"
                   >
                     <i className="far fa-phone fz16 me-2"></i>{" "}
-                    <span className="d-none d-xl-block">+56 989957576</span>
+                    <span className="d-none d-xl-block">+56 932460442</span>
                   </a>
                   <Link
                     className="ud-btn add-property menu-btn bdrs60 mx-2 mx-xl-4"

@@ -16,5 +16,23 @@
     ],
     "status": "generated",
     "source": "mercadopago"
+  },
+  {
+    "timestamp": "2025-08-04T19:26:30.858Z",
+    "ticketNumber": "AUTORIFA-20250804-05679580-27971",
+    "customerEmail": "crisgtk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "111111111",
+    "paymentId": 1324299858,
+    "amount": 10000,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 3,
+        "unit_price": 3300
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
   }
 ]

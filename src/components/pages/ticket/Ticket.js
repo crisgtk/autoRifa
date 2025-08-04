@@ -31,15 +31,29 @@ const Ticket = () => {
 
   // Effect para leer parámetros de URL y establecer cantidad inicial
   useEffect(() => {
+    console.log('🔍 Checking URL params...');
     const quantityParam = searchParams.get('quantity');
+    console.log('📊 Quantity param from URL:', quantityParam);
+    
     if (quantityParam) {
       const initialQuantity = parseInt(quantityParam, 10);
+      console.log('🔢 Parsed quantity:', initialQuantity);
+      
       if (initialQuantity > 0 && initialQuantity <= 10) {
-        setQuantities(prev => ({
-          ...prev,
-          [propertyData[0].id]: initialQuantity
-        }));
+        console.log('✅ Setting quantity to:', initialQuantity);
+        setQuantities(prev => {
+          const newQuantities = {
+            ...prev,
+            [propertyData[0].id]: initialQuantity
+          };
+          console.log('📦 New quantities state:', newQuantities);
+          return newQuantities;
+        });
+      } else {
+        console.log('❌ Quantity out of range:', initialQuantity);
       }
+    } else {
+      console.log('⚠️ No quantity parameter found in URL');
     }
   }, [searchParams]);
 
