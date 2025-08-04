@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import CallToActions from "@/components/common/CallToActions";
 import DefaultHeader from "@/components/common/DefaultHeader";
 import Footer from "@/components/common/default-footer";
@@ -36,7 +37,9 @@ const TicketPage = () => {
       {/* Pricing Section Area */}
       <section className="our-pricing pb90 pt-0">
         <div className="container">
-          <Ticket />
+          <Suspense fallback={<div className="text-center py-5">Cargando carrito...</div>}>
+            <Ticket />
+          </Suspense>
         </div>
         {/* End .container */}
       </section>
