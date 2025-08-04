@@ -33,7 +33,7 @@ const MercadoPagoCheckout = ({
     try {
       console.log('🎟️ Generando ticket para:', userData);
       
-      const response = await fetch('/api/tickets/generate', {
+      const response = await fetch('/api/tickets/generate-both', {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
@@ -41,14 +41,38 @@ const MercadoPagoCheckout = ({
         body: JSON.stringify(userData),
       });
 
-      const result = await response.json();
-
-      if (result.success) {
-        console.log('✅ Ticket generado y enviado por email exitosamente');
+      // El endpoint generate-both retorna PDF para descarga, no JSON
+      if (response.ok) {
+        // Obtener información del ticket desde los headers
+        const ticketNumber = response.headers.get('X-Ticket-Number');
+        const emailSent = response.headers.get('X-Email-Sent') === 'true';
+        
+        // Descargar PDF automáticamente
+        const pdfBlob = await response.blob();
+        const pdfUrl = window.URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = `ticket-${ticketNumber || userData.ticketNumber}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(pdfUrl);
+        
+        console.log('✅ Ticket generado exitosamente:');
+        console.log('📥 PDF descargado automáticamente');
+        console.log(`📧 Email enviado: ${emailSent ? 'Sí' : 'Error'}`);
+        
         setTicketGenerated(true);
       } else {
-        console.error('❌ Error generando ticket:', result.error);
-        setError('Error generando el ticket: ' + result.error);
+        // Si hay error, intentar leer como JSON
+        try {
+          const errorResult = await response.json();
+          console.error('❌ Error generando ticket:', errorResult.error);
+          setError('Error generando el ticket: ' + errorResult.error);
+        } catch {
+          console.error('❌ Error desconocido generando ticket');
+          setError('Error desconocido al generar el ticket');
+        }
       }
     } catch (error) {
       console.error('❌ Error en generateAndSendTicket:', error);
@@ -176,17 +200,24 @@ const MercadoPagoCheckout = ({
               <div className="col-md-6">
                 <h6 className="text-primary">🎟️ Tu Ticket</h6>
                 {ticketGenerated ? (
-                  <div className="alert alert-info">
-                    <i className="fas fa-paper-plane me-2"></i>
-                    <strong>¡Ticket enviado por email!</strong>
+                  <div className="alert alert-success">
+                    <div className="d-flex align-items-center mb-2">
+                      <i className="fas fa-download me-2"></i>
+                      <strong>¡PDF descargado automáticamente!</strong>
+                    </div>
+                    <div className="d-flex align-items-center">
+                      <i className="fas fa-paper-plane me-2"></i>
+                      <strong>¡También enviado por email!</strong>
+                    </div>
                     <div className="mt-2">
-                      <small>Revisa tu bandeja de entrada (y spam)</small>
+                      <small>📥 Revisa tu carpeta de descargas</small><br/>
+                      <small>📧 Revisa tu bandeja de entrada (y spam)</small>
                     </div>
                   </div>
                 ) : (
                   <div className="d-flex align-items-center">
                     <div className="spinner-border spinner-border-sm text-primary me-2"></div>
-                    <small>Generando y enviando ticket...</small>
+                    <small>Generando PDF y enviando email...</small>
                   </div>
                 )}
               </div>
@@ -197,10 +228,21 @@ const MercadoPagoCheckout = ({
               <p className="mb-2">Tu participación en el sorteo ha sido registrada exitosamente.</p>
               {ticketGenerated ? (
                 <div className="alert alert-success mb-0">
-                  <i className="fas fa-envelope me-2"></i>
-                  <strong>✅ Ticket enviado por email exitosamente</strong>
-                  <div className="mt-1">
-                    <small>Revisa tu bandeja de entrada para encontrar tu ticket PDF con código QR</small>
+                  <div className="row">
+                    <div className="col-6">
+                      <i className="fas fa-download me-2"></i>
+                      <strong>✅ PDF Descargado</strong>
+                      <div className="mt-1">
+                        <small>Revisa tu carpeta de descargas</small>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <i className="fas fa-envelope me-2"></i>
+                      <strong>✅ Email Enviado</strong>
+                      <div className="mt-1">
+                        <small>Revisa tu bandeja de entrada</small>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -209,7 +251,7 @@ const MercadoPagoCheckout = ({
                     <div className="spinner-border spinner-border-sm text-info me-2" role="status">
                       <span className="visually-hidden">Generando ticket...</span>
                     </div>
-                    <span>Generando PDF y enviando por email...</span>
+                    <span>📥 Descargando PDF + 📧 Enviando email...</span>
                   </div>
                 </div>
               )}

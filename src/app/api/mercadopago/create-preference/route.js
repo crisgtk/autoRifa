@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
+import { getPaymentUrls } from '@/utilis/environment';
 
 // Configurar MercadoPago con el access token
 const client = new MercadoPagoConfig({
@@ -27,11 +28,7 @@ export async function POST(request) {
         unit_price: parseFloat(item.unit_price),
         currency_id: item.currency_id || 'CLP',
       })),
-      back_urls: back_urls || {
-        success: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/payment/success`,
-        failure: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/payment/failure`,
-        pending: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/payment/pending`,
-      },
+      back_urls: back_urls || getPaymentUrls(),
       auto_return: auto_return || 'approved',
       notification_url: notification_url,
       payment_methods: {
