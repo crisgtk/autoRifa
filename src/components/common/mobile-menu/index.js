@@ -2,7 +2,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import ContactInfo from "./ContactInfo";
-import Social from "./Social";
 import ProSidebarContent from "./ProSidebarContent";
 
 const MobileMenu = () => {
@@ -11,9 +10,9 @@ const MobileMenu = () => {
       <div className="mobile-menu">
         <div className="header innerpage-style">
           <div className="menu_and_widgets">
-            <div className="mobile_menu_bar d-flex justify-content-between align-items-center">
+            <div className="mobile_menu_bar d-flex justify-content-center align-items-center position-relative">
               <a
-                className="menubar"
+                className="menubar position-absolute start-0"
                 href="#"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#mobileMenu"
@@ -34,9 +33,7 @@ const MobileMenu = () => {
                   alt="logo"
                 />
               </Link>
-              <Link href="/login">
-                <span className="icon fz18 far fa-user-circle" />
-              </Link>
+
             </div>
           </div>
         </div>
@@ -59,7 +56,7 @@ const MobileMenu = () => {
             >
               <span className="far fa-times"></span>
             </div>
-            <h4 className="title">Welcome to Homez</h4>
+            <h4 className="title">Menú</h4>
           </div>
           {/* End header */}
 
@@ -74,14 +71,7 @@ const MobileMenu = () => {
                 </div>
                 {/* End .row */}
 
-                <div className="row pt30 pb30 bdrt1">
-                  <div className="col-auto">
-                    <div className="social-style-sidebar d-flex align-items-center pl30">
-                      <h6 className="me-4 mb-0">Follow us</h6>
-                      <Social />
-                    </div>
-                  </div>
-                </div>
+
               </div>
               {/* hiddenbar_footer */}
             </div>

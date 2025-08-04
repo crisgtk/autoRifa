@@ -65,9 +65,11 @@ const DefaultHeader = () => {
                 <div className="d-flex align-items-center">
                   <a
                     className="login-info d-flex align-items-center me-3"
-                    href="tel:+56932460442"
+                    href="https://wa.me/56932460442"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <i className="far fa-phone fz16 me-2"></i>{" "}
+                    <i className="flaticon-whatsapp fz16 me-2"></i>{" "}
                     <span className="d-none d-xl-block">+56 932460442</span>
                   </a>
                   <Link
