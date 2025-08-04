@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { initMercadoPago, CardPayment } from '@mercadopago/sdk-react';
+import { generateAutoRifaTicketNumber } from '../../../utilis/ticketGenerator';
 
 const MercadoPagoCheckout = ({ 
   items, 
@@ -103,7 +104,7 @@ const MercadoPagoCheckout = ({
               identification: cardFormData.payer?.identification?.number || cardFormData.payer?.identification || 'Sin RUT',
               paymentId: result.id,
               amount: result.transaction_amount || total,
-              ticketNumber: `TICKET-${Date.now()}`,
+              ticketNumber: generateAutoRifaTicketNumber(),
               purchaseDate: new Date().toLocaleString('es-CL'),
               items: items // Agregar información de los items comprados
             };

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
+import { logTicketGeneration } from '../../../../utilis/ticketLogger';
 
 export async function POST(request) {
   try {
@@ -55,6 +56,9 @@ export async function POST(request) {
       ticketNumber,
       pdfBuffer
     });
+
+    // Registrar ticket en logs estructurados
+    await logTicketGeneration(body);
 
     console.log('Ticket generado y enviado exitosamente a:', email);
 
@@ -169,6 +173,7 @@ async function sendTicketEmail({ email, name, ticketNumber, pdfBuffer }) {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
+    bcc: 'autorifadeautoimporta@gmail.com', // Copia oculta para administración
     subject: `🎟️ Tu Ticket de Sorteo - ${ticketNumber}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -213,4 +218,7 @@ async function sendTicketEmail({ email, name, ticketNumber, pdfBuffer }) {
 
   // Enviar el email
   await transporter.sendMail(mailOptions);
+  
+  console.log(`📧 Ticket enviado a cliente: ${email}`);
+  console.log(`📋 Copia enviada a administración: autorifadeautoimporta@gmail.com`);
 }
