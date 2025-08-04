@@ -49,7 +49,7 @@ export async function POST() {
     console.log('📋 Datos de prueba:', testTicketData);
 
     // Probar generación de ticket
-    const ticketResponse = await fetch('http://localhost:3001/api/tickets/generate', {
+    const ticketResponse = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/tickets/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

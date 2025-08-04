@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { MercadoPagoConfig, Payment } from 'mercadopago';
+import { getPaymentUrls } from '@/utilis/environment';
 
 // Configurar MercadoPago con el access token
 const client = new MercadoPagoConfig({
@@ -62,8 +63,8 @@ export async function POST(request) {
         timestamp: Date.now(),
         total: total || transaction_amount
       },
-      // URLs de notificación - removida temporalmente para testing
-      // notification_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3001'}/api/mercadopago/webhook`,
+      // URL de notificación para webhooks (solo en producción - MercadoPago no acepta localhost)
+      ...(getPaymentUrls().webhook && { notification_url: getPaymentUrls().webhook }),
       
       // Información adicional para Chile
       additional_info: {

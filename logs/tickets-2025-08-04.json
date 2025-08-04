@@ -34,5 +34,131 @@
     ],
     "status": "generated",
     "source": "mercadopago"
+  },
+  {
+    "timestamp": "2025-08-04T21:29:15.171Z",
+    "ticketNumber": "AUTORIFA-20250804-D5BD0605-15898",
+    "customerEmail": "crisgtk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "111111111",
+    "paymentId": 1340078907,
+    "amount": 20000,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 6,
+        "unit_price": 3300
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
+  },
+  {
+    "timestamp": "2025-08-04T21:33:30.634Z",
+    "ticketNumber": "AUTORIFA-20250804-9BE93344-60353",
+    "customerEmail": "crisgtk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "111111111",
+    "paymentId": 1340086045,
+    "amount": 5000,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 1,
+        "unit_price": 5000
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
+  },
+  {
+    "timestamp": "2025-08-04T21:34:38.443Z",
+    "ticketNumber": "AUTORIFA-20250804-04C3C945-66066",
+    "customerEmail": "crisgtk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "111111111",
+    "paymentId": 1340086057,
+    "amount": 5000,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 1,
+        "unit_price": 5000
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
+  },
+  {
+    "timestamp": "2025-08-04T21:38:17.795Z",
+    "ticketNumber": "AUTORIFA-20250804-7B7A9769-97076",
+    "customerEmail": "crisgtk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "111111111",
+    "paymentId": 1340079029,
+    "amount": 5000,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 1,
+        "unit_price": 5000
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
+  },
+  {
+    "timestamp": "2025-08-04T21:39:43.324Z",
+    "ticketNumber": "AUTORIFA-20250804-E1971769-98426",
+    "customerEmail": "crisgtk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "111111111",
+    "paymentId": 1340079069,
+    "amount": 5000,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 1,
+        "unit_price": 5000
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
+  },
+  {
+    "timestamp": "2025-08-04T21:41:45.307Z",
+    "ticketNumber": "AUTORIFA-20250804-B1B92D68-68927",
+    "customerEmail": "crisgtk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "111111111",
+    "paymentId": 1340079093,
+    "amount": 5000,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 1,
+        "unit_price": 5000
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
+  },
+  {
+    "timestamp": "2025-08-04T21:44:01.749Z",
+    "ticketNumber": "AUTORIFA-20250804-EC853AB4-77597",
+    "customerEmail": "crisgk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "111111111",
+    "paymentId": 1340087957,
+    "amount": 5000,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 1,
+        "unit_price": 5000
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
   }
 ]
