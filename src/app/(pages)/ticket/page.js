@@ -1,3 +1,4 @@
+"use client";
 import { Suspense } from "react";
 import CallToActions from "@/components/common/CallToActions";
 import DefaultHeader from "@/components/common/DefaultHeader";
@@ -5,9 +6,7 @@ import Footer from "@/components/common/default-footer";
 import MobileMenu from "@/components/common/mobile-menu";
 import Ticket from "@/components/pages/ticket/Ticket";
 
-export const metadata = {
-  title: "Ticket  || Homez - Real Estate NextJS Template",
-};
+// Metadata removed - Client Components cannot export metadata
 
 const TicketPage = () => {
   return (

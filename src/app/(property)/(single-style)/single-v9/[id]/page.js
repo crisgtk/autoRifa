@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import DefaultHeader from "@/components/common/DefaultHeader";
 import Footer from "@/components/common/default-footer";
 import MobileMenu from "@/components/common/mobile-menu";
@@ -26,9 +26,7 @@ import React from "react";
 import MortgageCalculator from "@/components/property/property-single-style/common/MortgageCalculator";
 import WalkScore from "@/components/property/property-single-style/common/WalkScore";
 
-export const metadata = {
-  title: "Property Single V9 || Homez - Real Estate NextJS Template",
-};
+// Metadata removed - Client Components cannot export metadata
 
 const SingleV9 = ({ params }) => {
   return (
