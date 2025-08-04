@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const QuantitySelector = ({ 
   initialValue = 1, 
@@ -8,6 +8,12 @@ const QuantitySelector = ({
   onChange = () => {} 
 }) => {
   const [quantity, setQuantity] = useState(initialValue);
+
+  // Sincronizar con el initialValue cuando cambie
+  useEffect(() => {
+    console.log('🔄 QuantitySelector: initialValue changed to:', initialValue);
+    setQuantity(initialValue);
+  }, [initialValue]);
 
   const handleIncrement = () => {
     if (quantity < maxValue) {

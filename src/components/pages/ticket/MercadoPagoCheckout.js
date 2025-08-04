@@ -272,9 +272,7 @@ const MercadoPagoCheckout = ({
         </p>
         <div className="row small text-muted">
           <div className="col-md-6">
-            <strong>Visa Aprobada:</strong> 4009 1753 3280 7176<br/>
-            <strong>Mastercard Aprobada:</strong> 5031 7557 3453 0604<br/>
-            <strong>Visa Rechazada:</strong> 4774 0614 1078 7852
+            <strong>Visa Aprobada:</strong> 4170 0688 1010 8020<br/>
           </div>
           <div className="col-md-6">
             <strong>CVV:</strong> 123<br/>

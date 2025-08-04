@@ -39,16 +39,15 @@ const CallToActions = () => {
 
             <div className="col-lg-5 col-xl-6 " data-aos="fade-left">
               <div className="cta-btns-style1 d-block d-sm-flex align-items-center justify-content-lg-end">
-                <Link
+                {/* <Link
                   href="/contact"
                   className="ud-btn btn-transparent mr30 mr0-xs"
                 >
-                  Contactanos
                   <i className="fal fa-arrow-right-long" />
-                </Link>
-                <Link href="#" className="ud-btn btn-dark">
-                  <span className="flaticon-call vam pe-2" />
-                  +56 989957576
+                </Link> */}
+                <Link href="https://wa.me/56932460442" className="ud-btn btn-dark" target="_blank" rel="noopener noreferrer">
+                  <span className="flaticon-whatsapp vam pe-2" />
+                  WhatsApp +56 932460442
                 </Link>
               </div>
             </div>

@@ -65,13 +65,15 @@ const DefaultHeader = () => {
                 <div className="d-flex align-items-center">
                   <a
                     className="login-info d-flex align-items-center me-3"
-                    href="tel:+012305094502"
+                    href="https://wa.me/56932460442"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <i className="far fa-phone fz16 me-2"></i>{" "}
-                    <span className="d-none d-xl-block">+56 989957576</span>
+                    <i className="flaticon-whatsapp fz16 me-2"></i>{" "}
+                    <span className="d-none d-xl-block">+56 932460442</span>
                   </a>
                   <Link
-                    className="ud-btn add-property menu-btn bdrs60 mx-2 mx-xl-4"
+                    className="ud-btn add-property menu-btn-2 bdrs60 mx-2 mx-xl-4"
                     href="/ticket"
                   >
                     Compra tu ticket

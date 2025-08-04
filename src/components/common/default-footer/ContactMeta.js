@@ -3,9 +3,9 @@ import React from "react";
 const ContactMeta = () => {
   const contactInfoList = [
     {
-      title: "Total Free Customer Care",
-      phone: "+(0) 123 050 945 02",
-      phoneLink: "tel:+012305094502", // Changed phoneLink to tel: URI
+      title: "Contacto WhatsApp",
+      phone: "+56 932460442",
+      phoneLink: "https://wa.me/56932460442", // WhatsApp link
     },
     {
       title: "Need Live Support?",
@@ -22,7 +22,7 @@ const ContactMeta = () => {
             <p className="info-title">{contact.title}</p>
             {contact.phone && (
               <h6 className="info-phone">
-                <a href={contact.phoneLink}>{contact.phone}</a>
+                <a href={contact.phoneLink} target={contact.phoneLink.includes('wa.me') ? "_blank" : "_self"} rel={contact.phoneLink.includes('wa.me') ? "noopener noreferrer" : ""}>{contact.phone}</a>
               </h6>
             )}
             {contact.mail && (

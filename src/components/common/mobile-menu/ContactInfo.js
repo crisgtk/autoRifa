@@ -4,15 +4,9 @@ const ContactInfo = () => {
   const contactInfo = [
     {
       id: 1,
-      title: "Total Free Customer Care",
-      phone: "+(0) 123 050 945 02",
-      phoneHref: "tel:+012305094502", // Updated phoneHref to use "tel" URI
-    },
-    {
-      id: 2,
-      title: "Need Live Support?",
-      email: "hi@homez.com",
-      emailHref: "mailto:hi@homez.com", // Updated emailHref to use "mailto" URI
+      title: "Contacto WhatsApp",
+      phone: "+56 932460442",
+      phoneHref: "https://wa.me/56932460442", // WhatsApp link
     },
   ];
 
@@ -24,12 +18,7 @@ const ContactInfo = () => {
             <p className="info-title dark-color">{info.title}</p>
             {info.phone && (
               <h6 className="info-phone dark-color">
-                <a href={info.phoneHref}>{info.phone}</a>
-              </h6>
-            )}
-            {info.email && (
-              <h6 className="info-mail dark-color">
-                <a href={info.emailHref}>{info.email}</a>
+                <a href={info.phoneHref} target="_blank" rel="noopener noreferrer">{info.phone}</a>
               </h6>
             )}
           </div>
