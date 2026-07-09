@@ -41,6 +41,16 @@ const ProSidebarContent = () => {
         >
           Auto en sorteo
         </MenuItem>
+        
+        <MenuItem
+          component={
+            <Link
+              href="/#quienes-somos"
+            />
+          }
+        >
+          Quiénes somos
+        </MenuItem>
       </Menu>
     </Sidebar>
   );

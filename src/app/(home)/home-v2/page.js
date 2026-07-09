@@ -9,6 +9,7 @@ import Header from "@/components/home/home-v2/Header";
 import Testimonial from "@/components/home/home-v2/Testimonial";
 import About from "@/components/home/home-v2/about";
 import Hero from "@/components/home/home-v2/hero";
+import QuienesSomos from "@/components/home/home-v2/QuienesSomos";
 import React from "react";
 import Footer from "@/components/common/default-footer";
 import Cta from "@/components/home/home-v2/Cta";
@@ -68,6 +69,10 @@ const Home_V2 = () => {
         </div>
       </section>
       {/* End About Us */}
+
+      {/* Quienes Somos */}
+      <QuienesSomos />
+      {/* End Quienes Somos */}
 
       {/* Featured Listings */}
       <section className="pt0 pb60 pb30-md bgc-white">

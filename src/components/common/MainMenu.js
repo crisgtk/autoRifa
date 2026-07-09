@@ -35,6 +35,14 @@ const MainMenu = () => {
           </span>
         </Link>
       </li>
+
+      <li className="visible_list">
+        <Link className="list-item" href="/#quienes-somos">
+          <span className="title">
+            Quiénes somos
+          </span>
+        </Link>
+      </li>
     </ul>
   );
 };

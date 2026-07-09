@@ -10,7 +10,7 @@ const Hero = () => {
           ¡Podrias ser el próximo ganador!
         </h2>
         <p className="hero-text fz15" data-aos="fade-up" data-aos-delay="250">
-          NO TE QUEDES SIN LA OPORTUNIDAD DE GANAR ESTE AUTO
+          NO TE QUEDES SIN LA OPORTUNIDAD DE AYUDAR Y GANAR ESTE AUTO
         </p>
       </div>
       {/* End Hero content */}

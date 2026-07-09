@@ -36,7 +36,7 @@ const Header = () => {
             <div className="row align-items-center justify-content-between">
               <div className="col-auto">
                 <div className="d-flex align-items-center justify-content-between">
-                  <div className="logos mr40">
+                  <div className="logos mr40 d-flex align-items-center">
                     <Link className="header-logo logo1" href="/">
                       <Image
                         width={220}
@@ -53,6 +53,16 @@ const Header = () => {
                         alt="Header Logo"
                       />
                     </Link>
+                    <div className="logo-divider mx-2" />
+                    <div className="corp-logo-container">
+                      <Image
+                        width={120}
+                        height={60}
+                        src="/images/logo/logo-corporacion.jpeg"
+                        alt="Logo Corporación"
+                        style={{ objectFit: "contain", width: "100%", height: "100%" }}
+                      />
+                    </div>
                   </div>
                   {/* End Logo */}
 

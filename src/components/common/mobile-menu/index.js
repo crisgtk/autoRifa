@@ -25,14 +25,27 @@ const MobileMenu = () => {
                   alt="mobile icon"
                 />
               </a>
-              <Link className="mobile_logo" href="/">
-                <Image
-                  width={200}
-                  height={70}
-                  src="/images/ai1.png"
-                  alt="logo"
-                />
-              </Link>
+              <div className="d-flex align-items-center justify-content-center">
+                <Link className="mobile_logo" href="/">
+                  <Image
+                    width={160}
+                    height={55}
+                    src="/images/ai1.png"
+                    alt="logo"
+                    style={{ objectFit: "contain" }}
+                  />
+                </Link>
+                <div className="logo-divider mx-2" style={{ height: "30px" }} />
+                <div className="corp-logo-container" style={{ width: "100px", height: "46px", padding: "1px 2px" }}>
+                  <Image
+                    width={90}
+                    height={42}
+                    src="/images/logo/logo-corporacion.jpeg"
+                    alt="Logo Corporación"
+                    style={{ objectFit: "contain", width: "100%", height: "100%" }}
+                  />
+                </div>
+              </div>
 
             </div>
           </div>

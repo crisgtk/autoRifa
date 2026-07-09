@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2025-12-30T02:39:35.274Z",
+    "ticketNumber": "AUTORIFA-20251229-D286BE8A-21943",
+    "customerEmail": "crisgtk@gmail.com",
+    "customerName": "Usuario",
+    "customerRUT": "160364769",
+    "paymentId": 139969328088,
+    "amount": 50,
+    "items": [
+      {
+        "title": "STICKET",
+        "quantity": 1,
+        "unit_price": 50
+      }
+    ],
+    "status": "generated",
+    "source": "mercadopago"
+  }
+]

@@ -3,12 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { initMercadoPago, CardPayment } from '@mercadopago/sdk-react';
 import { generateAutoRifaTicketNumber } from '../../../utilis/ticketGenerator';
 
-const MercadoPagoCheckout = ({ 
-  items, 
-  total, 
-  onSuccess = () => {}, 
-  onError = () => {},
-  onPending = () => {} 
+const MercadoPagoCheckout = ({
+  items,
+  total,
+  onSuccess = () => { },
+  onError = () => { },
+  onPending = () => { }
 }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -32,9 +32,9 @@ const MercadoPagoCheckout = ({
   const generateAndSendTicket = async (userData) => {
     try {
       console.log('🎟️ Generando ticket para:', userData);
-      
+
       const response = await fetch('/api/tickets/generate-both', {
-        method: 'POST', 
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -46,7 +46,7 @@ const MercadoPagoCheckout = ({
         // Obtener información del ticket desde los headers
         const ticketNumber = response.headers.get('X-Ticket-Number');
         const emailSent = response.headers.get('X-Email-Sent') === 'true';
-        
+
         // Descargar PDF automáticamente
         const pdfBlob = await response.blob();
         const pdfUrl = window.URL.createObjectURL(pdfBlob);
@@ -57,11 +57,11 @@ const MercadoPagoCheckout = ({
         link.click();
         document.body.removeChild(link);
         window.URL.revokeObjectURL(pdfUrl);
-        
+
         console.log('✅ Ticket generado exitosamente:');
         console.log('📥 PDF descargado automáticamente');
         console.log(`📧 Email enviado: ${emailSent ? 'Sí' : 'Error'}`);
-        
+
         setTicketGenerated(true);
       } else {
         // Si hay error, intentar leer como JSON
@@ -93,7 +93,7 @@ const MercadoPagoCheckout = ({
       onSubmit: async (cardFormData) => {
         setLoading(true);
         console.log('Datos del formulario de tarjeta:', cardFormData);
-        
+
         try {
           const response = await fetch('/api/mercadopago/create-payment', {
             method: 'POST',
@@ -109,7 +109,7 @@ const MercadoPagoCheckout = ({
           });
 
           const result = await response.json();
-          
+
           if (result.error) {
             setError(result.error);
             onError(new Error(result.error));
@@ -117,10 +117,10 @@ const MercadoPagoCheckout = ({
           }
 
           setPaymentResult(result);
-          
+
           if (result.status === 'approved') {
             console.log('Pago aprobado:', result);
-            
+
             // Capturar datos del usuario para generar ticket
             const userData = {
               name: cardFormData.payer?.first_name || cardFormData.cardholder?.name || 'Usuario',
@@ -132,12 +132,12 @@ const MercadoPagoCheckout = ({
               purchaseDate: new Date().toLocaleString('es-CL'),
               items: items // Agregar información de los items comprados
             };
-            
+
             console.log('Datos del usuario capturados:', userData);
-            
+
             // Llamar al sistema de tickets
             await generateAndSendTicket(userData);
-            
+
             onSuccess(result);
           } else if (result.status === 'pending') {
             console.log('Pago pendiente:', result);
@@ -168,7 +168,7 @@ const MercadoPagoCheckout = ({
       <div className="alert alert-danger" role="alert">
         <i className="fas fa-exclamation-triangle me-2"></i>
         {error}
-        <button 
+        <button
           className="btn btn-sm btn-outline-danger ms-3"
           onClick={() => {
             setError(null);
@@ -210,7 +210,7 @@ const MercadoPagoCheckout = ({
                       <strong>¡También enviado por email!</strong>
                     </div>
                     <div className="mt-2">
-                      <small>📥 Revisa tu carpeta de descargas</small><br/>
+                      <small>📥 Revisa tu carpeta de descargas</small><br />
                       <small>📧 Revisa tu bandeja de entrada (y spam)</small>
                     </div>
                   </div>
@@ -222,7 +222,7 @@ const MercadoPagoCheckout = ({
                 )}
               </div>
             </div>
-            
+
             <div className="mt-3 p-3 bg-light rounded">
               <h6 className="mb-2">🍀 ¡Felicitaciones!</h6>
               <p className="mb-2">Tu participación en el sorteo ha sido registrada exitosamente.</p>
@@ -295,7 +295,7 @@ const MercadoPagoCheckout = ({
 
       {/* CardPayment Brick */}
       <div className="card-payment-brick">
-        <CardPayment 
+        <CardPayment
           initialization={cardPaymentBricksOptions}
           onReady={cardPaymentBricksOptions.callbacks.onReady}
           onSubmit={cardPaymentBricksOptions.callbacks.onSubmit}
@@ -303,26 +303,7 @@ const MercadoPagoCheckout = ({
         />
       </div>
 
-      {/* Información de prueba actualizada para TEST */}
-      <div className="mt-3 p-3 bg-light rounded">
-        <h6 className="text-muted mb-2">
-          <i className="fas fa-info-circle me-2"></i>
-          Tarjetas de Prueba (TEST)
-        </h6>
-        <p className="small text-muted mb-2">
-          Usa estas tarjetas con credenciales TEST:
-        </p>
-        <div className="row small text-muted">
-          <div className="col-md-6">
-            <strong>Visa Aprobada:</strong> 4170 0688 1010 8020<br/>
-          </div>
-          <div className="col-md-6">
-            <strong>CVV:</strong> 123<br/>
-            <strong>Fecha:</strong> 12/25<br/>
-            <strong>Nombre:</strong> APRO (aprobada) / OTHE (rechazada)
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 };
