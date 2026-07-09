@@ -46,9 +46,41 @@ export async function POST(request) {
       );
     }
 
+    // Reglas estrictas de precios en el servidor (CLP)
+    const prices = {
+      1: 2000,
+      2: 4000,
+      3: 5000,
+      4: 7000,
+      5: 9000,
+      6: 10000
+    };
+
+    // Validar cantidad total de boletos
+    const totalQty = (items || []).reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+    if (isNaN(totalQty) || totalQty < 1 || totalQty > 6) {
+      return NextResponse.json(
+        { error: 'Cantidad total de tickets inválida (mínimo 1, máximo 6 tickets).' },
+        { status: 400 }
+      );
+    }
+
+    const expectedTotal = prices[totalQty];
+
+    // Forzar y recalcular unit_price de forma proporcional
+    const validatedItems = (items || []).map((item) => {
+      const itemQty = parseInt(item.quantity) || 1;
+      const itemPrice = Math.round((expectedTotal * itemQty) / totalQty / itemQty);
+      return {
+        title: item.title || 'Ticket de Sorteo',
+        quantity: itemQty,
+        unit_price: itemPrice,
+      };
+    });
+
     // Configurar el pago
     const paymentData = {
-      transaction_amount: total || transaction_amount,
+      transaction_amount: expectedTotal, // Sobrescribir con el total calculado de forma segura en el servidor
       token: token,
       description: description || 'Compra de tickets para sorteo',
       installments: parseInt(installments) || 1,
@@ -63,23 +95,24 @@ export async function POST(request) {
       },
       external_reference: `ticket-${Date.now()}`,
       metadata: {
-        items: items || [],
+        items: validatedItems,
         timestamp: Date.now(),
-        total: total || transaction_amount
+        total: expectedTotal,
+        total_quantity: totalQty
       },
       // URL de notificación para webhooks (solo en producción - MercadoPago no acepta localhost)
       ...(paymentUrls.webhook && { notification_url: paymentUrls.webhook }),
       
       // Información adicional para Chile
       additional_info: {
-        items: (items || []).map((item, index) => ({
+        items: validatedItems.map((item, index) => ({
           id: `item-${index}`,
-          title: item.title || 'Ticket para sorteo',
-          description: item.description || 'Ticket para participar en sorteo',
+          title: item.title,
+          description: `Ticket para participar en sorteo`,
           picture_url: null,
           category_id: 'tickets',
-          quantity: parseInt(item.quantity) || 1,
-          unit_price: parseFloat(item.unit_price) || (total || transaction_amount)
+          quantity: item.quantity,
+          unit_price: item.unit_price
         })),
         payer: {
           first_name: 'Test',

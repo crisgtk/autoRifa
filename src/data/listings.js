@@ -8,7 +8,7 @@ module.exports = [
     bed: "5",
     bath: "2.0C.C",
     sqft: 66000,
-    price: "$5000",
+    price: "$2000",
     forRent: false,
     tags: ["house", "office"],
     propertyType:'4x2',yearBuilding:2022,

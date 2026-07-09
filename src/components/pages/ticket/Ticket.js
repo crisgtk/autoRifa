@@ -12,7 +12,7 @@ const propertyData = [
     title: "STICKET",
     imageSrc: "/images/car/mini_cooper/mini_cooper_1.jpeg",
     location: "sorteo el dd/mm/yyyy",
-    price: 50, // Precio temporal para pruebas (Normal: 5000)
+    price: 2000,
   }
 ];
 
@@ -39,12 +39,13 @@ const Ticket = () => {
       const initialQuantity = parseInt(quantityParam, 10);
       console.log('🔢 Parsed quantity:', initialQuantity);
 
-      if (initialQuantity > 0 && initialQuantity <= 10) {
-        console.log('✅ Setting quantity to:', initialQuantity);
+      if (initialQuantity > 0) {
+        const clampedQuantity = Math.min(initialQuantity, 6);
+        console.log('✅ Setting quantity to:', clampedQuantity);
         setQuantities(prev => {
           const newQuantities = {
             ...prev,
-            [propertyData[0].id]: initialQuantity
+            [propertyData[0].id]: clampedQuantity
           };
           console.log('📦 New quantities state:', newQuantities);
           return newQuantities;
@@ -57,44 +58,47 @@ const Ticket = () => {
     }
   }, [searchParams]);
 
-  // Función para formatear precios en pesos colombianos
+  // Función para formatear precios en pesos chilenos
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('es-CO', {
+    return new Intl.NumberFormat('es-CL', {
       style: 'currency',
-      currency: 'COP',
+      currency: 'CLP',
       minimumFractionDigits: 0
     }).format(price);
   };
 
-  // Función para calcular precio con promoción (múltiplos de 3)
+  // Función para calcular precio con promoción (basado en paquetes de 3 y 6 tickets)
   const calculatePromotionalPrice = (quantity, basePrice) => {
-    const groupsOfThree = Math.floor(quantity / 3);
-    const remainingTickets = quantity % 3;
+    // En producción: 1 ticket = 2000, 3 tickets = 5000, 6 tickets = 10000.
+    // Para soportar modo de pruebas con un basePrice diferente (e.g. 50),
+    // calculamos la relación respecto al precio base normal de 2000.
+    const ratio = basePrice / 2000;
+    
+    const groupsOfSix = Math.floor(quantity / 6);
+    let remainder = quantity % 6;
+    
+    const groupsOfThree = Math.floor(remainder / 3);
+    remainder = remainder % 3;
 
-    // Precio por grupo de 3: 10000, precio individual: 5000
-    const promotionalPrice = (groupsOfThree * 10000) + (remainingTickets * basePrice);
+    const p6 = 10000 * ratio;
+    const p3 = 5000 * ratio;
+    const p1 = basePrice;
 
-    return promotionalPrice;
+    return (groupsOfSix * p6) + (groupsOfThree * p3) + (remainder * p1);
   };
 
   // Función para calcular precio unitario efectivo
   const calculateEffectiveUnitPrice = (quantity, basePrice) => {
     const totalPrice = calculatePromotionalPrice(quantity, basePrice);
-    const unitPrice = totalPrice / quantity;
-
-    // Si hay promoción (múltiplos de 3), redondear a centenas hacia abajo
-    if (quantity >= 3 && Math.floor(quantity / 3) > 0) {
-      return Math.floor(unitPrice / 100) * 100;
-    }
-
-    return unitPrice;
+    return Math.round(totalPrice / quantity);
   };
 
   // Función para manejar cambios en cantidad
   const handleQuantityChange = (productId, newQuantity) => {
+    const clamped = Math.min(Math.max(newQuantity, 1), 6);
     setQuantities(prev => ({
       ...prev,
-      [productId]: newQuantity
+      [productId]: clamped
     }));
   };
 
@@ -116,8 +120,7 @@ const Ticket = () => {
               <div>
                 <h6 className="mb-1 text-primary">¡Oferta Especial!</h6>
                 <p className="mb-0">
-                  <strong>Promoción múltiplos de 3:</strong> Por cada 3 tickets paga solo $10.000
-                  (en lugar de $15.000) • 6 tickets = $20.000 • 9 tickets = $30.000
+                  <strong>Promoción especial:</strong> 1 ticket por $2.000 • 3 tickets por solo $5.000 (ahorras $1.000) • 6 tickets por solo $10.000 (ahorras $2.000)
                 </p>
               </div>
             </div>
@@ -180,7 +183,7 @@ const Ticket = () => {
                   <QuantitySelector
                     initialValue={quantities[property.id]}
                     minValue={1}
-                    maxValue={10}
+                    maxValue={6}
                     onChange={(quantity) => handleQuantityChange(property.id, quantity)}
                   />
                 </td>
@@ -266,7 +269,7 @@ const Ticket = () => {
                 <QuantitySelector
                   initialValue={quantities[property.id]}
                   minValue={1}
-                  maxValue={10}
+                  maxValue={6}
                   onChange={(quantity) => handleQuantityChange(property.id, quantity)}
                 />
               </div>

@@ -20,14 +20,42 @@ export async function POST(request) {
       );
     }
 
+    // Reglas estrictas de precios en el servidor (CLP)
+    const prices = {
+      1: 2000,
+      2: 4000,
+      3: 5000,
+      4: 7000,
+      5: 9000,
+      6: 10000
+    };
+
+    // Validar cantidad total de boletos
+    const totalQty = items.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+    if (isNaN(totalQty) || totalQty < 1 || totalQty > 6) {
+      return NextResponse.json(
+        { error: 'Cantidad total de tickets inválida (mínimo 1, máximo 6 tickets).' },
+        { status: 400 }
+      );
+    }
+
+    const expectedTotal = prices[totalQty];
+
+    // Forzar y recalcular unit_price de forma proporcional
+    const validatedItems = items.map((item) => {
+      const itemQty = parseInt(item.quantity) || 1;
+      const itemPrice = Math.round((expectedTotal * itemQty) / totalQty / itemQty);
+      return {
+        title: item.title || 'Ticket de Sorteo',
+        quantity: itemQty,
+        unit_price: itemPrice,
+        currency_id: 'CLP',
+      };
+    });
+
     // Configurar la preferencia de pago
     const preference = {
-      items: items.map(item => ({
-        title: item.title,
-        quantity: parseInt(item.quantity),
-        unit_price: parseFloat(item.unit_price),
-        currency_id: item.currency_id || 'CLP',
-      })),
+      items: validatedItems,
       back_urls: back_urls || getPaymentUrls(),
       auto_return: auto_return || 'approved',
       notification_url: notification_url,
@@ -40,15 +68,19 @@ export async function POST(request) {
         email: 'test_user@test.com', // Email de prueba
       },
       external_reference: `ticket-${Date.now()}`,
-      metadata: metadata || {},
+      metadata: {
+        ...metadata,
+        total_quantity: totalQty,
+        total_amount: expectedTotal
+      },
       // Configuración específica para Chile
       additional_info: {
-        items: items.map(item => ({
-          id: `item-${Date.now()}`,
+        items: validatedItems.map((item, index) => ({
+          id: `item-${index}-${Date.now()}`,
           title: item.title,
           description: `Ticket para sorteo: ${item.title}`,
-          quantity: parseInt(item.quantity),
-          unit_price: parseFloat(item.unit_price),
+          quantity: item.quantity,
+          unit_price: item.unit_price,
         })),
         payer: {
           first_name: 'Test',

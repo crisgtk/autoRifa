@@ -7,7 +7,7 @@ const Pricing = () => {
   const pricingPackages = [
     {
       packageTitle: "1 ticket",
-      price: "$5.000",
+      price: "$2.000",
       pricePerMonth: "",
       priceIcon: "../images/icon/pricing-icon-2.svg",
       features: [
@@ -20,8 +20,8 @@ const Pricing = () => {
       ],
     },
     {
-      packageTitle: "3 ticket",
-      price: "$10.000",
+      packageTitle: "3 tickets",
+      price: "$5.000",
       pricePerMonth: "",
       priceIcon: "../images/icon/pricing-icon-1.svg",
       uniqueClass: "unique-class", // Add a unique class for Professional package
@@ -29,21 +29,21 @@ const Pricing = () => {
         "Triplica tus posibilidades de ganar el auto sorteado",
         "Mas oportunidades de ganar",
         "Muy facil de comprar",
-        "Muy dacil de participar",
+        "Muy facil de participar",
         "Sorteo en Vivo",
         "Intransferible",
       ],
     },
     {
-      packageTitle: " 6 tickets",
-      price: "$20.000",
+      packageTitle: "6 tickets",
+      price: "$10.000",
       pricePerMonth: "",
       priceIcon: "../images/icon/pricing-icon-3.svg",
       features: [
         "Lanza 6 veces tus posibilidades de ganar el auto sorteado",
         "muchas mas oportunidades de ganar",
         "Muy facil de comprar",
-        "Muy dacil de participar",
+        "Muy facil de participar",
         "Sorteo en Vivo",
         "Intransferible",
       ],
@@ -93,8 +93,8 @@ const Pricing = () => {
                     ? index === 0
                       ? "Free" // First object shows "Free"
                       : index === 1
-                      ? "$599.99" // Second object shows "$599.95"
-                      : "$999.99" // Third object shows "$999.95"
+                        ? "$599.99" // Second object shows "$599.95"
+                        : "$999.99" // Third object shows "$999.95"
                     : item.price}
                 </h1>
                 <p className="text">{item.pricePerMonth}</p>
@@ -121,7 +121,7 @@ const Pricing = () => {
                   </ul>
                 </div>
                 <div className="d-grid">
-                  <Link 
+                  <Link
                     href={`/ticket?quantity=${index === 0 ? 1 : index === 1 ? 3 : 6}`}
                     className="ud-btn btn-thm-border text-thm"
                   >

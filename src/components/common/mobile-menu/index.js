@@ -36,14 +36,19 @@ const MobileMenu = () => {
                   />
                 </Link>
                 <div className="logo-divider mx-2" style={{ height: "30px" }} />
-                <div className="corp-logo-container" style={{ width: "100px", height: "46px", padding: "1px 2px" }}>
-                  <Image
-                    width={90}
-                    height={42}
-                    src="/images/logo/logo-corporacion.jpeg"
-                    alt="Logo Corporación"
-                    style={{ objectFit: "contain", width: "100%", height: "100%" }}
-                  />
+                <div className="corp-logo-container">
+                  <div className="corp-logo-emblem">
+                    <Image
+                      width={36}
+                      height={36}
+                      src="/images/logo/logo-corporacion-icon.jpeg"
+                      alt="Logo Corporación"
+                    />
+                  </div>
+                  <div className="corp-logo-text">
+                    <span className="corp-title">Corp. Discapacitados</span>
+                    <span className="corp-subtitle">Ley 20.422</span>
+                  </div>
                 </div>
               </div>
 

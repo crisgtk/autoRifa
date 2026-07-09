@@ -10,6 +10,7 @@ import Testimonial from "@/components/home/home-v2/Testimonial";
 import About from "@/components/home/home-v2/about";
 import Hero from "@/components/home/home-v2/hero";
 import QuienesSomos from "@/components/home/home-v2/QuienesSomos";
+import RaffleStats from "@/components/home/home-v2/RaffleStats";
 import React from "react";
 import Footer from "@/components/common/default-footer";
 import Cta from "@/components/home/home-v2/Cta";
@@ -74,6 +75,9 @@ const Home_V2 = () => {
       <QuienesSomos />
       {/* End Quienes Somos */}
 
+      {/* Raffle Stats Section */}
+      <RaffleStats />
+
       {/* Featured Listings */}
       <section className="pt0 pb60 pb30-md bgc-white">
         <div className="container">
@@ -82,7 +86,7 @@ const Home_V2 = () => {
               <div className="main-title2">
                 <h2 className="title">Descubre el auto que estamos sorteando</h2>
                 <p className="paragraph">
-                  No olvides que puedes participar en el sorteo de este auto, solo necesitas comprar un ticket de $5000 0 3 ticket por $10000.
+                  No olvides que puedes participar en el sorteo de este auto, solo necesitas comprar un ticket de $2.000, 3 tickets por $5.000 o 6 tickets por $10.000.
                 </p>
               </div>
             </div>

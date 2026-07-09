@@ -286,9 +286,35 @@ const MercadoPagoCheckout = ({
       <div className="mb-3">
         <h5 className="mb-3">Completa tu pago</h5>
         <div className="p-3 bg-light rounded mb-3">
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between align-items-center">
             <span>Total a pagar:</span>
-            <strong>${total.toLocaleString('es-CL')} CLP</strong>
+            <strong className="text-dark fz18">${total.toLocaleString('es-CL')} CLP</strong>
+          </div>
+        </div>
+      </div>
+
+      {/* Bloque de Garantías de Seguridad */}
+      <div className="p-3 mb-4 rounded border border-light bg-light-gradient shadow-sm">
+        <div className="d-flex align-items-start mb-2">
+          <i className="fas fa-shield-alt text-success fz20 me-2 mt-1"></i>
+          <div>
+            <h6 className="mb-0 text-success fw-bold">Pago 100% Seguro</h6>
+            <small className="text-muted d-block lh-sm">
+              Tus datos de pago están encriptados y protegidos mediante SSL de 256 bits. 
+              No almacenamos los datos de tu tarjeta.
+            </small>
+          </div>
+        </div>
+        <hr className="my-2 text-muted opacity-25" />
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex align-items-center">
+            <i className="fas fa-lock text-muted fz12 me-1"></i>
+            <small className="text-muted fw-500">Procesado por Mercado Pago</small>
+          </div>
+          <div className="d-flex gap-2 align-items-center opacity-75">
+            <i className="fab fa-cc-visa text-muted fz20"></i>
+            <i className="fab fa-cc-mastercard text-muted fz20"></i>
+            <i className="fab fa-cc-amex text-muted fz20"></i>
           </div>
         </div>
       </div>
@@ -302,8 +328,6 @@ const MercadoPagoCheckout = ({
           onError={cardPaymentBricksOptions.callbacks.onError}
         />
       </div>
-
-
     </div>
   );
 };

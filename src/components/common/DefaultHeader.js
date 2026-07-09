@@ -54,13 +54,18 @@ const DefaultHeader = () => {
                     </Link>
                     <div className="logo-divider mx-2" />
                     <div className="corp-logo-container">
-                      <Image
-                        width={120}
-                        height={60}
-                        src="/images/logo/logo-corporacion.jpeg"
-                        alt="Logo Corporación"
-                        style={{ objectFit: "contain", width: "100%", height: "100%" }}
-                      />
+                      <div className="corp-logo-emblem">
+                        <Image
+                          width={48}
+                          height={48}
+                          src="/images/logo/logo-corporacion-icon.jpeg"
+                          alt="Logo Corporación"
+                        />
+                      </div>
+                      <div className="corp-logo-text">
+                        <span className="corp-title">Corp. Discapacitados</span>
+                        <span className="corp-subtitle">Ley 20.422</span>
+                      </div>
                     </div>
                   </div>
                   {/* End Logo */}

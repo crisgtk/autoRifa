@@ -1,9 +1,13 @@
 import DefaultHeader from "@/components/common/DefaultHeader";
 import Footer from "@/components/common/default-footer";
-import MobileMenu from "@/components/common/mobile-menu";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import dynamic from "next/dynamic";
+
+const MobileMenu = dynamic(() => import("@/components/common/mobile-menu"), {
+  ssr: false,
+});
 
 export const metadata = {
   title: "Not-Found  || Homez - Real Estate NextJS Template",

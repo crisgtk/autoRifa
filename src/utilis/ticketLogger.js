@@ -69,3 +69,33 @@ export async function getTodaysTickets() {
   const today = new Date().toISOString().split('T')[0];
   return await getTicketsFromDate(today);
 }
+
+/**
+ * Obtiene todos los tickets registrados en todos los archivos de log
+ * @returns {Promise<Array>} Lista de todos los tickets
+ */
+export async function getAllTickets() {
+  try {
+    const logDir = path.join(process.cwd(), 'logs');
+    const files = await fs.readdir(logDir);
+    const ticketFiles = files.filter(f => f.startsWith('tickets-') && f.endsWith('.json'));
+    
+    let allTickets = [];
+    for (const file of ticketFiles) {
+      try {
+        const filePath = path.join(logDir, file);
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const tickets = JSON.parse(fileContent);
+        if (Array.isArray(tickets)) {
+          allTickets.push(...tickets);
+        }
+      } catch (e) {
+        console.error(`Error al leer archivo de tickets ${file}:`, e);
+      }
+    }
+    return allTickets;
+  } catch (error) {
+    console.error('Error listando logs de tickets:', error);
+    return [];
+  }
+}
