@@ -5,6 +5,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 
+/**
+ * ProSidebarContent component for mobile navigation.
+ * Handles scrollspy highlighting for page sections in the mobile menu drawer.
+ * 
+ * @returns {React.JSX.Element} The rendered mobile navigation sidebar.
+ */
 const ProSidebarContent = () => {
   const path = usePathname();
   const [activeSection, setActiveSection] = useState("");
@@ -15,6 +21,46 @@ const ProSidebarContent = () => {
       return;
     }
 
+    /**
+     * Handles scroll events to detect the active section based on vertical scroll position.
+     * 
+     * @returns {void}
+     */
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+
+      if (scrollPosition < 200) {
+        setActiveSection((prev) => (prev !== "" ? "" : prev));
+        return;
+      }
+
+      const quienesSection = document.getElementById("quienes-somos");
+      const sorteoSection = document.getElementById("estado-sorteo");
+
+      let currentSection = "";
+
+      if (quienesSection) {
+        const offsetTop = quienesSection.offsetTop;
+        if (scrollPosition >= offsetTop - 250) {
+          currentSection = "quienes-somos";
+        }
+      }
+
+      if (sorteoSection) {
+        const offsetTop = sorteoSection.offsetTop;
+        if (scrollPosition >= offsetTop - 250) {
+          currentSection = "estado-sorteo";
+        }
+      }
+
+      setActiveSection((prev) => (prev !== currentSection ? currentSection : prev));
+    };
+
+    /**
+     * Handles hash change events to set the active section based on the URL hash fragment.
+     * 
+     * @returns {void}
+     */
     const handleHashChange = () => {
       const hash = window.location.hash;
       if (hash === "#quienes-somos") {
@@ -22,51 +68,21 @@ const ProSidebarContent = () => {
       } else if (hash === "#estado-sorteo") {
         setActiveSection("estado-sorteo");
       } else {
-        setActiveSection("");
+        handleScroll();
       }
     };
 
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("hashchange", handleHashChange);
     window.addEventListener("popstate", handleHashChange);
+
+    // Call initially to sync state
     handleHashChange();
 
-    const observerOptions = {
-      root: null,
-      rootMargin: "-20% 0px -60% 0px",
-      threshold: 0,
-    };
-
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        } else {
-          if (entry.target.id === "quienes-somos" && window.scrollY < 300) {
-            setActiveSection("");
-          }
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    const targetQuienes = document.getElementById("quienes-somos");
-    if (targetQuienes) {
-      observer.observe(targetQuienes);
-    }
-    const targetSorteo = document.getElementById("estado-sorteo");
-    if (targetSorteo) {
-      observer.observe(targetSorteo);
-    }
-
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("hashchange", handleHashChange);
       window.removeEventListener("popstate", handleHashChange);
-      if (targetQuienes) {
-        observer.unobserve(targetQuienes);
-      }
-      if (targetSorteo) {
-        observer.unobserve(targetSorteo);
-      }
     };
   }, [path]);
 
