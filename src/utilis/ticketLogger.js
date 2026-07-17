@@ -99,3 +99,39 @@ export async function getAllTickets() {
     return [];
   }
 }
+
+/**
+ * Anula un ticket específico buscando en todos los archivos de logs JSON
+ * y cambiando su estado a 'cancelled'.
+ * @param {string} ticketNumber - El número del ticket a anular.
+ * @returns {Promise<boolean>} Retorna true si se encontró y anuló, false de lo contrario.
+ */
+export async function cancelTicket(ticketNumber) {
+  try {
+    const logDir = path.join(process.cwd(), 'logs');
+    const files = await fs.readdir(logDir);
+    const ticketFiles = files.filter(f => f.startsWith('tickets-') && f.endsWith('.json'));
+    
+    for (const file of ticketFiles) {
+      const filePath = path.join(logDir, file);
+      const fileContent = await fs.readFile(filePath, 'utf8');
+      const tickets = JSON.parse(fileContent);
+      
+      if (Array.isArray(tickets)) {
+        const ticketIndex = tickets.findIndex(t => t.ticketNumber === ticketNumber);
+        if (ticketIndex !== -1) {
+          // Cambiar estado a cancelado
+          tickets[ticketIndex].status = 'cancelled';
+          // Guardar cambios
+          await fs.writeFile(filePath, JSON.stringify(tickets, null, 2));
+          console.log(`✅ Ticket ${ticketNumber} anulado exitosamente en log: ${file}`);
+          return true;
+        }
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error(`❌ Error al anular ticket ${ticketNumber}:`, error);
+    throw error;
+  }
+}

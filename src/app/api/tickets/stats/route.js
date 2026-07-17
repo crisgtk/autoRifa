@@ -12,8 +12,11 @@ export async function GET(request) {
   try {
     const allTickets = await getAllTickets();
     
-    // Suma la cantidad total de boletos comprados en base a logs
-    const soldFromLogs = allTickets.reduce((sum, ticket) => {
+    // Filtrar los tickets activos (no anulados)
+    const activeTickets = allTickets.filter(ticket => ticket.status !== 'cancelled');
+    
+    // Suma la cantidad total de boletos comprados en base a logs de tickets activos
+    const soldFromLogs = activeTickets.reduce((sum, ticket) => {
       if (Array.isArray(ticket.items)) {
         return sum + ticket.items.reduce((itemSum, item) => itemSum + (item.quantity || 0), 0);
       }
@@ -22,7 +25,7 @@ export async function GET(request) {
     }, 0);
     
     // Offset de ventas presenciales/offline (ajustable por variable de entorno)
-    const offlineOffset = parseInt(process.env.OFFLINE_TICKETS_OFFSET || '120', 10);
+    const offlineOffset = parseInt(process.env.OFFLINE_TICKETS_OFFSET || '0', 10);
     const totalSold = soldFromLogs + offlineOffset;
     
     // Variables de configuración de sorteo con fallbacks amigables
