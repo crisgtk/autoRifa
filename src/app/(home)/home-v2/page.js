@@ -18,6 +18,7 @@ import Pricing from "@/components/home/home-v6/Pricing";
 
 
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "Home v2 || Homez - Real Estate NextJS Template",
@@ -35,17 +36,26 @@ const Home_V2 = () => {
       {/* End Mobile Nav  */}
 
       {/* Home Banner Style V2 */}
-      <section className="home-banner-style2 p0">
-        <div className="home-style2">
-          <div className="container maxw1600">
-            <div className="home2-hero-banner bdrs12"></div>
-            <div className="row">
-              <div className="col-xl-10 mx-auto">
-                <Hero />
-              </div>
-            </div>
+      <section className="home-banner-style2">
+        <div className="container maxw1600">
+          <div className="hero-content-top text-center">
+            <h1 className="hero-title" data-aos="fade-up" data-aos-delay="150">
+              ¡Podrías ser el próximo ganador!
+            </h1>
+            <p className="hero-text" data-aos="fade-up" data-aos-delay="250">
+              NO TE QUEDES SIN LA OPORTUNIDAD DE AYUDAR Y GANAR ESTE AUTO
+            </p>
           </div>
-          {/* End .container */}
+          <div className="hero-car-card" data-aos="fade-up" data-aos-delay="350">
+            <Image
+              src="/images/car/ssangyong_tivoli/tivoli_1.jpg"
+              alt="SsangYong Tivoli"
+              width={1600}
+              height={750}
+              className="w-100 h-auto cover"
+              priority
+            />
+          </div>
         </div>
       </section>
       {/* End Home Banner Style V2 */}

@@ -10,9 +10,9 @@ const MobileMenu = () => {
       <div className="mobile-menu">
         <div className="header innerpage-style">
           <div className="menu_and_widgets">
-            <div className="mobile_menu_bar d-flex justify-content-center align-items-center position-relative">
+            <div className="mobile_menu_bar d-flex align-items-center justify-content-between px-2 px-sm-3">
               <a
-                className="menubar position-absolute start-0"
+                className="menubar flex-shrink-0 me-2"
                 href="#"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#mobileMenu"
@@ -25,22 +25,22 @@ const MobileMenu = () => {
                   alt="mobile icon"
                 />
               </a>
-              <div className="d-flex align-items-center justify-content-center">
+              <div className="mobile-logos-wrapper d-flex align-items-center justify-content-end flex-grow-1">
                 <Link className="mobile_logo" href="/">
                   <Image
-                    width={160}
-                    height={55}
+                    width={130}
+                    height={45}
                     src="/images/ai1.png"
                     alt="logo"
                     style={{ objectFit: "contain" }}
                   />
                 </Link>
-                <div className="logo-divider mx-2" style={{ height: "30px" }} />
+                <div className="logo-divider mx-1 mx-sm-2" />
                 <div className="corp-logo-container">
                   <div className="corp-logo-emblem">
                     <Image
-                      width={36}
-                      height={36}
+                      width={32}
+                      height={32}
                       src="/images/logo/logo-corporacion-icon.jpeg"
                       alt="Logo Corporación"
                     />
@@ -51,7 +51,6 @@ const MobileMenu = () => {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
