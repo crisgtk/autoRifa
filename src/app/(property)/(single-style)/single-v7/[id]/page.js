@@ -57,6 +57,11 @@ const SingleV7 = ({ params }) => {
             <OverView id={params.id} />
           </div>
           {/* End .row */}
+
+          <div className="row mt30 mb30">
+            <PropertyVideo />
+          </div>
+          {/* End .row */}
         </div>
       </section>
       {/* <!-- End Property Singe Top --> */}

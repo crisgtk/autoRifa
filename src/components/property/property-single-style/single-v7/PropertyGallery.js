@@ -5,34 +5,24 @@ import Image from "next/image";
 import listings from "@/data/listings";
 
 const images = [
-  {
-    src: "/images/car/mini_cooper/mini_cooper_2.jpeg",
-    alt: "2.jpg",
-  },
-  {
-    src: "/images/car/mini_cooper/mini_cooper_3.jpeg",
-    alt: "3.jpg",
-  },
-  {
-    src: "/images/car/mini_cooper/mini_cooper_4.jpeg",
-    alt: "4.jpg",
-  },
-  {
-    src: "/images/car/mini_cooper/mini_cooper_5.jpeg",
-    alt: "5.jpg",
-  },
-  {
-    src: "/images/car/mini_cooper/mini_cooper_6.jpeg",
-    alt: "6.jpg",
-  },
-  {
-    src: "/images/car/mini_cooper/mini_cooper_7.jpeg",
-    alt: "7.jpg",
-  },
+  { src: "/images/car/ssangyong_tivoli/tivoli_2.jpg", alt: "tivoli_2.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_3.jpg", alt: "tivoli_3.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_4.jpg", alt: "tivoli_4.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_5.jpg", alt: "tivoli_5.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_6.jpg", alt: "tivoli_6.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_7.jpg", alt: "tivoli_7.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_8.jpg", alt: "tivoli_8.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_9.jpg", alt: "tivoli_9.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_10.jpg", alt: "tivoli_10.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_11.jpg", alt: "tivoli_11.jpg" },
+  { src: "/images/car/ssangyong_tivoli/tivoli_12.jpg", alt: "tivoli_12.jpg" },
 ];
 
 const PropertyGallery = ({ id }) => {
   const data = listings.filter((elm) => elm.id == id)[0] || listings[0];
+  const gridImages = images.slice(0, 4);
+  const hiddenImages = images.slice(4);
+
   return (
     <>
       <Gallery>
@@ -40,21 +30,22 @@ const PropertyGallery = ({ id }) => {
           <div className="sp-img-content mb15-md">
             <div className="popup-img preview-img-1 sp-img">
               <Item
-                original={"/images/car/mini_cooper/mini_cooper_1.jpeg"}
-                thumbnail={"/images/car/mini_cooper/mini_cooper_1.jpeg"}
-                width={1280}
-                height={720}
+                original={"/images/car/ssangyong_tivoli/tivoli_1.jpg"}
+                thumbnail={"/images/car/ssangyong_tivoli/tivoli_1.jpg"}
+                width={1600}
+                height={739}
               >
                 {({ ref, open }) => (
                   <Image
-                    src={"/images/car/mini_cooper/mini_cooper_1.jpeg"}
-                    width={1280}
-                    height={720}
+                    src={"/images/car/ssangyong_tivoli/tivoli_1.jpg"}
+                    width={1600}
+                    height={739}
                     ref={ref}
                     onClick={open}
                     alt="image"
                     role="button"
                     className="w-100 h-100 cover"
+                    style={{ objectFit: "cover" }}
                   />
                 )}
               </Item>
@@ -65,7 +56,7 @@ const PropertyGallery = ({ id }) => {
 
         <div className="col-sm-6">
           <div className="row">
-            {images.map((image, index) => (
+            {gridImages.map((image, index) => (
               <div className="col-6 ps-sm-0" key={index}>
                 <div className="sp-img-content">
                   <div
@@ -74,14 +65,15 @@ const PropertyGallery = ({ id }) => {
                     <Item
                       original={image.src}
                       thumbnail={image.src}
-                      width={1280}
-                      height={720}
+                      width={1600}
+                      height={739}
                     >
                       {({ ref, open }) => (
                         <Image
-                          width={1280}
-                          height={720}
+                          width={1600}
+                          height={739}
                           className="w-100 h-100 cover"
+                          style={{ objectFit: "cover" }}
                           ref={ref}
                           onClick={open}
                           role="button"
@@ -95,6 +87,23 @@ const PropertyGallery = ({ id }) => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Hidden items for the rest of the gallery modal */}
+        <div className="d-none">
+          {hiddenImages.map((image, index) => (
+            <Item
+              key={index}
+              original={image.src}
+              thumbnail={image.src}
+              width={1600}
+              height={739}
+            >
+              {({ ref, open }) => (
+                <span ref={ref} onClick={open} />
+              )}
+            </Item>
+          ))}
         </div>
       </Gallery>
     </>

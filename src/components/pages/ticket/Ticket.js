@@ -9,9 +9,9 @@ import MercadoPagoCheckout from "./MercadoPagoCheckout";
 const propertyData = [
   {
     id: 1,
-    title: "STICKET",
-    imageSrc: "/images/car/mini_cooper/mini_cooper_1.jpeg",
-    location: "sorteo el dd/mm/yyyy",
+    title: "TICKET - SSANGYONG TIVOLI 2018",
+    imageSrc: "/images/car/ssangyong_tivoli/tivoli_1.jpg",
+    location: "Sorteo SsangYong Tivoli 2018",
     price: 2000,
   }
 ];
@@ -144,11 +144,12 @@ const Ticket = () => {
               <tr key={property.id}>
                 <th scope="row">
                   <div className="listing-style1 dashboard-style d-xxl-flex align-items-center mb-0">
-                    <div className="list-thumb">
+                    <div className="list-thumb" style={{ width: "120px", height: "70px", borderRadius: "10px", overflow: "hidden", flexShrink: 0 }}>
                       <Image
-                        width={110}
-                        height={94}
-                        className="w-100"
+                        width={120}
+                        height={70}
+                        className="w-100 h-100"
+                        style={{ objectFit: "cover" }}
                         src={property.imageSrc}
                         alt="property"
                       />
@@ -212,11 +213,12 @@ const Ticket = () => {
             <div className="card-body">
               {/* Producto */}
               <div className="d-flex align-items-center mb-3">
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0" style={{ width: "100px", height: "60px", borderRadius: "8px", overflow: "hidden" }}>
                   <Image
-                    width={80}
+                    width={100}
                     height={60}
-                    className="rounded"
+                    className="rounded w-100 h-100"
+                    style={{ objectFit: "cover" }}
                     src={property.imageSrc}
                     alt="property"
                   />

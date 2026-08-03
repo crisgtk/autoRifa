@@ -2985,6 +2985,8 @@ li {
 }
 .sp-img-content .sp-img img {
     height: 100%;
+    width: 100%;
+    object-fit: cover;
     -webkit-transition: all 0.4s ease;
     -o-transition: all 0.4s ease;
     transition: all 0.4s ease;
@@ -3294,7 +3296,7 @@ li {
 
 /*Home 2 Banner Content*/
 .home2-hero-banner {
-    background-image: url(../images/car/mini_cooper/mini_cooper_1.jpeg);
+    background-image: url(../images/car/ssangyong_tivoli/tivoli_1.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     height: 650px;

@@ -26,7 +26,7 @@ const Hero = () => {
     },
 
     {
-      image: "/images/car/mini_cooper/mini_cooper_1.jpeg",
+      image: "/images/car/ssangyong_tivoli/tivoli_1.jpg",
       title: (
         <>
           Buy your future <br className="d-none d-lg-block" />
@@ -35,12 +35,12 @@ const Hero = () => {
       ),
       description:
         "From as low as $10 per day with limited time offer discounts.",
-      title: "¡Participa en este sorteo de Mini Cooper!",
-      location: "New York City, CA, USA",
-      bed: "1",
-      bath: "2",
-      sqft: 1200,
-      price: "$14,000",
+      title: "¡Participa en este sorteo de SsangYong Tivoli 2018!",
+      location: "En Iquique",
+      bed: "5",
+      bath: "1.6",
+      sqft: 68000,
+      price: "$2.000",
     },
   ];
 

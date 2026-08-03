@@ -14,8 +14,8 @@ const About = () => {
               width={591}
               height={768}
               className="w-100 h-100 cover img-1"
-              src="/images/car/mini_cooper/mini_cooper_1.jpeg"
-              alt="about"
+              src="/images/car/ssangyong_tivoli/tivoli_1.jpg"
+              alt="SsangYong Tivoli 2018"
             />
           </div>
           <div className="img-box-8 position-relative">
@@ -37,9 +37,9 @@ const About = () => {
 
       <div className="col-md-6 col-xl-4 offset-xl-2">
         <div className="about-box-1">
-          <h2 className="title mb30">Hermoso mini cooper, no pasa desapercibido</h2>
+          <h2 className="title mb30">Increíble SsangYong Tivoli 2018, estilo y potencia</h2>
           <p className="text mb20 fz15">
-            Color beige oscuro, 5 pasajeros, motor 2.0C.C 
+            Color plomo, 5 pasajeros, motor 1.6C.C Diesel, transmisión automática.
           </p>
           <Funfact />
         </div>

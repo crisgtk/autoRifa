@@ -8,11 +8,11 @@ import "swiper/swiper-bundle.min.css";
 const GalleryBox = ({id}) => {
   const data = listings.filter((elm) => elm.id == id)[0] || listings[0];
   const imageUrls = [
-    "/images/car/mini_cooper/mini_cooper_1.jpeg",
-    "/images/car/mini_cooper/mini_cooper_2.jpeg",
-    "/images/car/mini_cooper/mini_cooper_3.jpeg",
-    "/images/car/mini_cooper/mini_cooper_4.jpeg",
-    "/images/car/mini_cooper/mini_cooper_5.jpeg",
+    "/images/car/ssangyong_tivoli/tivoli_1.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_2.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_3.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_4.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_5.jpg",
   ];
 
   return (

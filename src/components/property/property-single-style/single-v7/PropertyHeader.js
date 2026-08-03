@@ -12,7 +12,7 @@ const PropertyHeader = ({ id }) => {
           <h2 className="sp-lg-title text-white">{data.title}</h2>
           <div className="pd-meta mb15 d-md-flex align-items-center">
             <p className="text text-white fz15 mb-0 pr10 bdrrn-sm">
-              Hermosos mini cooper, no pasa desapercibido
+              Increíble SsangYong Tivoli 2018, estilo y potencia
             </p>
           </div>
           <div className="property-meta d-flex align-items-center">
@@ -27,11 +27,11 @@ const PropertyHeader = ({ id }) => {
               className="ff-heading text-white bdrr1 fz15 pr10 ml10 ml0-sm bdrrn-sm"
               href="#"
             >
-              <i className="far fa-clock pe-2" />2012
+              <i className="far fa-clock pe-2" />2018
             </a>
             <a className="ff-heading text-white ml10 ml0-sm fz15" href="#">
               <i className="flaticon-fullscreen pe-2 align-text-top" />
-              66.000 km
+              68.000 km
             </a>
           </div>
         </div>

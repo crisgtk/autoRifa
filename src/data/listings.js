@@ -2,32 +2,29 @@ module.exports = [
   {
 
     id: 1,
-    image: "/images/car/mini_cooper/mini_cooper_1.jpeg",
-    title: "Mini cooper 2012",
-    city:'Chile',location: "En iquique",
+    image: "/images/car/ssangyong_tivoli/tivoli_1.jpg",
+    title: "SsangYong Tivoli 2018",
+    city: 'Chile', location: "En Iquique",
     bed: "5",
-    bath: "2.0C.C",
-    sqft: 66000,
-    price: "$2000",
+    bath: "1.6C.C",
+    sqft: 68000,
+    price: "$2.000",
     forRent: false,
-    tags: ["house", "office"],
-    propertyType:'4x2',yearBuilding:2022,
-    featured:true,
+    tags: ["SUV", "4x2"],
+    propertyType: 'Automática', yearBuilding: 2018,
+    featured: true,
     lat: 40.7279707552121,
-        long: -74.07152705896405,
-    features:[
-      
-      "Air Conditioning",
-      "Lawn",
-      "TV Cable",
-      "Dryer",
-      "Outdoor Shower",
-      "Washer",
-      "Lake view",
-      "Wine cellar",
-      "Front yard",
-      "Refrigerator"
-  ],
+    long: -74.07152705896405,
+    features: [
+      "Aire Acondicionado Delantero",
+      "Transmisión Automática",
+      "Motor 1.6CC Diesel",
+      "Dirección Asistida",
+      "Frenos ABS",
+      "Airbags",
+      "Cierre Centralizado",
+      "Alza Vidrios Eléctricos"
+    ],
   },
   // {
 
