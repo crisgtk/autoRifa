@@ -59,8 +59,9 @@ export const getPaymentUrls = () => {
     success: `${baseUrl}/payment/success`,
     failure: `${baseUrl}/payment/failure`, 
     pending: `${baseUrl}/payment/pending`,
-    // Para desarrollo local, no incluir webhook (MercadoPago no acepta localhost)
-    webhook: environment === 'development' ? null : `${baseUrl}/api/mercadopago/webhook`
+    // Para desarrollo local, no incluir webhook (no acepta localhost)
+    webhook: environment === 'development' ? null : `${baseUrl}/api/mercadopago/webhook`,
+    khipuWebhook: environment === 'development' ? null : `${baseUrl}/api/khipu/webhook`
   };
   
   // Validar que la URL del webhook sea válida si está definida

@@ -125,7 +125,7 @@ const Pricing = () => {
                     href={`/ticket?quantity=${index === 0 ? 1 : index === 1 ? 3 : 6}`}
                     className="ud-btn btn-thm-border text-thm"
                   >
-                    Compra tu ticket
+                    Dona y participa
                     <i className="fal fa-arrow-right-long" />
                   </Link>
                 </div>

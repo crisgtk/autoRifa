@@ -5,20 +5,16 @@ export async function GET() {
     message: '🧪 Test del flujo completo de tickets',
     instructions: [
       '1. Ve a la página de tickets en tu frontend',
-      '2. Llena el formulario con tarjeta de prueba',
-      '3. Procesa el pago',
+      '2. Llena el formulario con tus datos',
+      '3. Procesa el pago y simula la aprobación en Khipu',
       '4. Ve si se genera y envía el ticket automáticamente'
     ],
-    test_cards: {
-      visa: '4170 0688 1010 8020',
-      mastercard: '5031 7557 3453 0604',
-      amex: '3711 803032 57522',
-      cvv: '123 (Amex: 1234)',
-      expiry: 'Cualquier fecha futura',
-      name: 'APRO (para aprobada)'
+    test_instructions: {
+      bank: 'Puedes usar cualquier banco ficticio en la pasarela de pruebas de Khipu',
+      amount: 'El precio se calcula automáticamente según la cantidad de tickets'
     },
     endpoints: {
-      payment: '/api/mercadopago/create-payment',
+      payment: '/api/khipu/create-payment',
       tickets: '/api/tickets/generate'
     }
   });
@@ -33,9 +29,9 @@ export async function POST() {
       name: 'Usuario de Prueba',
       email: 'test@example.com',
       identification: '12345678-9',
-      paymentId: `test_payment_${Date.now()}`,
+      paymentId: `test_payment_khipu_${Date.now()}`,
       amount: 25000,
-      ticketNumber: `TICKET-${Date.now()}`,
+      ticketNumber: `TICKET-KHIPU-${Date.now()}`,
       purchaseDate: new Date().toLocaleString('es-CL'),
       items: [
         {
@@ -63,8 +59,8 @@ export async function POST() {
 
     // Verificar variables de entorno
     const envCheck = {
-      mercadopago_access_token: !!process.env.MERCADOPAGO_ACCESS_TOKEN,
-      mercadopago_public_key: !!process.env.NEXT_PUBLIC_MERCADOPAGO_PUBLIC_KEY,
+      khipu_receiver_id: !!process.env.KHIPU_RECEIVER_ID,
+      khipu_secret: !!process.env.KHIPU_SECRET,
       email_user: !!process.env.EMAIL_USER,
       email_password: !!process.env.EMAIL_PASSWORD,
     };
@@ -81,7 +77,7 @@ export async function POST() {
       next_steps: ticketResponse.ok ? [
         '✅ PDF se genera correctamente',
         envCheck.email_user ? '✅ Email configurado' : '⚠️ Configurar email para envío automático',
-        '🎯 Probar desde el frontend con tarjeta real'
+        '🎯 Probar desde el frontend seleccionando Khipu'
       ] : [
         '❌ Error en generación de PDF',
         '🔧 Revisar logs del servidor',

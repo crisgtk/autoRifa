@@ -187,12 +187,12 @@ const MercadoPagoCheckout = ({
         <div className="card border-success">
           <div className="card-header bg-success text-white">
             <i className="fas fa-check-circle me-2"></i>
-            <strong>¡Pago Exitoso!</strong>
+            <strong>¡Donación Exitosa!</strong>
           </div>
           <div className="card-body">
             <div className="row">
               <div className="col-md-6">
-                <h6 className="text-success">💳 Información del Pago</h6>
+                <h6 className="text-success">💳 Información de la Donación</h6>
                 <p className="mb-1"><strong>ID:</strong> {paymentResult.id}</p>
                 <p className="mb-1"><strong>Monto:</strong> ${total.toLocaleString('es-CL')} CLP</p>
                 <p className="mb-3"><strong>Estado:</strong> <span className="badge bg-success">Aprobado</span></p>
@@ -263,9 +263,9 @@ const MercadoPagoCheckout = ({
       return (
         <div className="alert alert-warning" role="alert">
           <i className="fas fa-clock me-2"></i>
-          <strong>Pago pendiente</strong>
+          <strong>Donación pendiente</strong>
           <div className="mt-2">
-            <small>Tu pago está siendo procesado</small>
+            <small>Tu donación está siendo procesada</small>
           </div>
         </div>
       );
@@ -277,17 +277,17 @@ const MercadoPagoCheckout = ({
       {loading && (
         <div className="d-flex align-items-center justify-content-center py-3">
           <div className="spinner-border text-primary me-3" role="status">
-            <span className="visually-hidden">Procesando pago...</span>
+            <span className="visually-hidden">Procesando donación...</span>
           </div>
-          <span>Procesando tu pago...</span>
+          <span>Procesando tu donación...</span>
         </div>
       )}
 
       <div className="mb-3">
-        <h5 className="mb-3">Completa tu pago</h5>
+        <h5 className="mb-3">Completa tu donación</h5>
         <div className="p-3 bg-light rounded mb-3">
           <div className="d-flex justify-content-between align-items-center">
-            <span>Total a pagar:</span>
+            <span>Total a donar:</span>
             <strong className="text-dark fz18">${total.toLocaleString('es-CL')} CLP</strong>
           </div>
         </div>
@@ -298,9 +298,9 @@ const MercadoPagoCheckout = ({
         <div className="d-flex align-items-start mb-2">
           <i className="fas fa-shield-alt text-success fz20 me-2 mt-1"></i>
           <div>
-            <h6 className="mb-0 text-success fw-bold">Pago 100% Seguro</h6>
+            <h6 className="mb-0 text-success fw-bold">Donación 100% Segura</h6>
             <small className="text-muted d-block lh-sm">
-              Tus datos de pago están encriptados y protegidos mediante SSL de 256 bits. 
+              Tus datos de donación están encriptados y protegidos mediante SSL de 256 bits. 
               No almacenamos los datos de tu tarjeta.
             </small>
           </div>

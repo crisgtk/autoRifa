@@ -27,9 +27,8 @@ const Header = () => {
   return (
     <>
       <header
-        className={`header-nav nav-homepage-style at-home2  main-menu ${
-          navbar ? "sticky slideInDown animated" : ""
-        }`}
+        className={`header-nav nav-homepage-style at-home2  main-menu ${navbar ? "sticky slideInDown animated" : ""
+          }`}
       >
         <nav className="posr">
           <div className="container maxw1600 posr">
@@ -92,7 +91,7 @@ const Header = () => {
                     className="ud-btn add-property menu-btn bdrs60 mx-2 mx-xl-4"
                     href="/ticket"
                   >
-                    Compra tu ticket
+                    Dona y participa
                     <i className="fal fa-arrow-right-long" />
                   </Link>
                   {/* <a
@@ -102,7 +101,7 @@ const Header = () => {
                     data-bs-target="#SidebarPanel"
                     aria-controls="SidebarPanelLabel"
                   > */}
-                    {/* <Image
+                  {/* <Image
                       width={25}
                       height={9}
                       className="img-1"
@@ -137,7 +136,7 @@ const Header = () => {
         id="SidebarPanel"
         aria-labelledby="SidebarPanelLabel"
       > */}
-        {/* <SidebarPanel /> */}
+      {/* <SidebarPanel /> */}
       {/* </div> */}
       {/* Sidebar Panel End */}
     </>

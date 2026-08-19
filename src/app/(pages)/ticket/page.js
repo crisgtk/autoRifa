@@ -25,7 +25,7 @@ const TicketPage = () => {
           <div className="row">
             <div className="col-lg-12">
               <div className="breadcumb-style1">
-                <h2 className="title">Tu Carrito de compras</h2>
+                <h2 className="title">Tu Donación</h2>
               </div>
             </div>
           </div>
@@ -36,7 +36,7 @@ const TicketPage = () => {
       {/* Pricing Section Area */}
       <section className="our-pricing pb90 pt-0">
         <div className="container">
-          <Suspense fallback={<div className="text-center py-5">Cargando carrito...</div>}>
+          <Suspense fallback={<div className="text-center py-5">Cargando donación...</div>}>
             <Ticket />
           </Suspense>
         </div>

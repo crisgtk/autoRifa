@@ -100,15 +100,15 @@ const MainMenu = () => {
           </span>
         </Link>
       </li>
-      
+
       <li className="visible_list">
         <Link className="list-item" href="/ticket">
           <span className={pathname === "/ticket" ? "title menuActive" : "title"}>
-            Comprar ticket
+            Donar y participar
           </span>
         </Link>
       </li>
-      
+
       <li className="visible_list">
         <Link className="list-item" href="/single-v7/1">
           <span className={pathname === "/single-v7/1" ? "title menuActive" : "title"}>

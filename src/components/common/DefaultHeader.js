@@ -26,9 +26,8 @@ const DefaultHeader = () => {
   return (
     <>
       <header
-        className={`header-nav nav-homepage-style light-header menu-home4 main-menu ${
-          navbar ? "sticky slideInDown animated" : ""
-        }`}
+        className={`header-nav nav-homepage-style light-header menu-home4 main-menu ${navbar ? "sticky slideInDown animated" : ""
+          }`}
       >
         <nav className="posr">
           <div className="container maxw1600 posr menu_bdrt1">
@@ -91,7 +90,7 @@ const DefaultHeader = () => {
                     className="ud-btn add-property menu-btn-2 bdrs60 mx-2 mx-xl-4"
                     href="/ticket"
                   >
-                    Compra tu ticket
+                    Dona y participa
                     <i className="fal fa-arrow-right-long" />
                   </Link>
                 </div>
@@ -113,7 +112,7 @@ const DefaultHeader = () => {
         id="SidebarPanel"
         aria-labelledby="SidebarPanelLabel"
       > */}
-        {/* <SidebarPanel /> */}
+      {/* <SidebarPanel /> */}
       {/* </div> */}
       {/* Sidebar Panel End */}
     </>

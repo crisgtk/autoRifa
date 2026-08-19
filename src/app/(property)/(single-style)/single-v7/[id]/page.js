@@ -59,7 +59,7 @@ const SingleV7 = ({ params }) => {
           {/* End .row */}
 
           <div className="row mt30 mb30">
-            <PropertyVideo />
+            <PropertyVideo id={params.id} />
           </div>
           {/* End .row */}
         </div>

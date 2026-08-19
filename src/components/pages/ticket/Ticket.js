@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import QuantitySelector from "./QuantitySelector";
-import MercadoPagoCheckout from "./MercadoPagoCheckout";
+import KhipuCheckout from "./KhipuCheckout";
 
 const propertyData = [
   {
@@ -133,8 +133,8 @@ const Ticket = () => {
         <table className="table-style3 table at-savesearch">
           <thead className="t-head">
             <tr>
-              <th scope="col">Producto</th>
-              <th scope="col">Precio Unitario</th>
+              <th scope="col">Producto a sortear</th>
+              <th scope="col">Tu donación</th>
               <th scope="col">Cantidad</th>
               <th scope="col">Subtotal</th>
             </tr>
@@ -170,12 +170,12 @@ const Ticket = () => {
                     {quantities[property.id] >= 3 && quantities[property.id] % 3 === 0 && (
                       <div className="small text-success mt-1">
                         <i className="fas fa-tag me-1"></i>
-                        ¡Promoción aplicada!
+                        ¡Donación especial!
                       </div>
                     )}
                     {quantities[property.id] < 3 && (
                       <div className="small text-muted mt-1">
-                        Precio normal: {formatPrice(property.price)}
+                        Donación Normal: {formatPrice(property.price)}
                       </div>
                     )}
                   </div>
@@ -236,19 +236,19 @@ const Ticket = () => {
               {/* Precio Unitario */}
               <div className="row mb-3">
                 <div className="col-6">
-                  <small className="text-muted">Precio Unitario</small>
+                  <small className="text-muted">Tu donación</small>
                   <div className="fw-semibold">
                     {formatPrice(calculateEffectiveUnitPrice(quantities[property.id], property.price))}
                   </div>
                   {quantities[property.id] >= 3 && quantities[property.id] % 3 === 0 && (
                     <div className="small text-success mt-1">
                       <i className="fas fa-tag me-1"></i>
-                      ¡Promoción aplicada!
+                      ¡Donación especial!
                     </div>
                   )}
                   {quantities[property.id] < 3 && (
                     <div className="small text-muted mt-1">
-                      Precio normal: {formatPrice(property.price)}
+                      Donación Normal: {formatPrice(property.price)}
                     </div>
                   )}
                 </div>
@@ -311,29 +311,19 @@ const Ticket = () => {
                       </div>
                     )}
                     <div className="d-flex justify-content-between align-items-center">
-                      <h5 className="mb-0">Total a pagar:</h5>
+                      <h5 className="mb-0">Total a donar:</h5>
                       <h4 className="mb-0 text-primary">{formatPrice(totalWithPromo)}</h4>
                     </div>
                     <div className="mt-3">
-                      <MercadoPagoCheckout
+                      <KhipuCheckout
                         items={propertyData.map(product => ({
                           title: product.title,
                           quantity: quantities[product.id],
                           unit_price: calculateEffectiveUnitPrice(quantities[product.id], product.price)
                         }))}
                         total={totalWithPromo}
-                        onSuccess={(data) => {
-                          console.log('Pago exitoso:', data);
-                          // Aquí puedes manejar el éxito del pago
-                          // Por ejemplo, limpiar el carrito, guardar en BD, etc.
-                        }}
                         onError={(error) => {
-                          console.error('Error en el pago:', error);
-                          // Manejar errores de pago
-                        }}
-                        onPending={(data) => {
-                          console.log('Pago pendiente:', data);
-                          // Manejar pagos pendientes
+                          console.error('Error en el pago Khipu:', error);
                         }}
                       />
                     </div>

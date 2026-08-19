@@ -99,7 +99,7 @@ const ProSidebarContent = () => {
         >
           Inicio
         </MenuItem>
-        
+
         <MenuItem
           component={
             <Link
@@ -108,9 +108,9 @@ const ProSidebarContent = () => {
             />
           }
         >
-          Comprar ticket
+          Donar y participar
         </MenuItem>
-        
+
         <MenuItem
           component={
             <Link
@@ -132,7 +132,7 @@ const ProSidebarContent = () => {
         >
           Estado del sorteo
         </MenuItem>
-        
+
         <MenuItem
           component={
             <Link

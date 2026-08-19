@@ -1,8 +1,26 @@
 "use client";
 import React, { useState } from "react";
+import listings from "@/data/listings";
 
-const PropertyVideo = () => {
+/**
+ * @typedef {Object} PropertyVideoProps
+ * @property {number|string} [id] - El ID de la propiedad/auto para obtener la imagen de vista previa.
+ */
+
+/**
+ * Componente PropertyVideo
+ * Muestra el banner con el botón de reproducción del video del auto,
+ * usando la imagen del auto como fondo dinámico en lugar de un marcador de posición estático.
+ * 
+ * @component
+ * @param {PropertyVideoProps} props - Propiedades del componente.
+ * @returns {React.JSX.Element} El componente de video renderizado.
+ */
+const PropertyVideo = ({ id }) => {
   const [isOpen, setOpen] = useState(false);
+
+  const data = listings.find((elm) => elm.id == id) || listings[0];
+  const videoPreviewImage = data?.image || "/images/car/ssangyong_tivoli/tivoli_1.jpg";
 
   return (
     <>
@@ -43,7 +61,10 @@ const PropertyVideo = () => {
       )}
 
       <div className="col-md-12">
-        <div className="property_video bdrs12 w-100">
+        <div 
+          className="property_video bdrs12 w-100"
+          style={{ backgroundImage: `url(${videoPreviewImage})` }}
+        >
           <button
             className="video_popup_btn mx-auto popup-img"
             onClick={() => setOpen(true)}

@@ -26,7 +26,7 @@ export async function logTicketGeneration(ticketData) {
       amount: ticketData.amount,
       items: ticketData.items,
       status: 'generated',
-      source: 'mercadopago'
+      source: ticketData.source || 'mercadopago'
     };
     
     // Leer archivo existente o crear array vacío

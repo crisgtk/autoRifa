@@ -5,7 +5,7 @@ export const homeItems = [
 export const listingItems = [
   {
     submenu: [
-      { label: "Comprar tu ticket", href: "/ticket" },
+      { label: "Donar y participar", href: "/ticket" },
     ],
   },
 ];

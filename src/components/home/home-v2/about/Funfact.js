@@ -28,7 +28,7 @@ const Funfact = () => {
         </div>
       ))} */}
       <Link href="/ticket" className="ud-btn btn-thm">
-        Compra tu ticket
+        Dona y participa
         <i className="fal fa-arrow-right-long" />
       </Link>
     </div>
