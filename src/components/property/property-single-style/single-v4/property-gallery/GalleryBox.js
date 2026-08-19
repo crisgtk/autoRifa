@@ -6,13 +6,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.min.css";
 
 const GalleryBox = ({id}) => {
-  const data = listings.filter((elm) => elm.id == id)[0] || listings[0];
   const imageUrls = [
     "/images/car/ssangyong_tivoli/tivoli_1.jpg",
     "/images/car/ssangyong_tivoli/tivoli_2.jpg",
     "/images/car/ssangyong_tivoli/tivoli_3.jpg",
     "/images/car/ssangyong_tivoli/tivoli_4.jpg",
     "/images/car/ssangyong_tivoli/tivoli_5.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_6.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_7.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_8.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_9.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_10.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_11.jpg",
+    "/images/car/ssangyong_tivoli/tivoli_12.jpg",
   ];
 
   return (

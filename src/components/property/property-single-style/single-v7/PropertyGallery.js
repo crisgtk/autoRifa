@@ -69,17 +69,25 @@ const PropertyGallery = ({ id }) => {
                       height={739}
                     >
                       {({ ref, open }) => (
-                        <Image
-                          width={1600}
-                          height={739}
-                          className="w-100 h-100 cover"
-                          style={{ objectFit: "cover" }}
-                          ref={ref}
+                        <div
+                          className="position-relative w-100 h-100 pointer"
                           onClick={open}
-                          role="button"
-                          src={image.src}
-                          alt={image.alt}
-                        />
+                        >
+                          <Image
+                            width={1600}
+                            height={739}
+                            className="w-100 h-100 cover"
+                            style={{ objectFit: "cover" }}
+                            ref={ref}
+                            alt={image.alt}
+                            src={image.src}
+                          />
+                          {index === 3 && hiddenImages.length > 0 && (
+                            <div className="gallery-more-overlay">
+                              <span>Ver todas (+{hiddenImages.length})</span>
+                            </div>
+                          )}
+                        </div>
                       )}
                     </Item>
                   </div>
